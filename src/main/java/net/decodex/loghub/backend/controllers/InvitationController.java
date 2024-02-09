@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.domain.dto.CreateInvitationDto;
 import net.decodex.loghub.backend.domain.dto.InvitationDto;
-import net.decodex.loghub.backend.domain.dto.RegisterUserRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.RegisterUserRequestDto;
 import net.decodex.loghub.backend.domain.dto.UserDto;
 import net.decodex.loghub.backend.services.InvitationService;
 import org.springframework.web.bind.annotation.*;

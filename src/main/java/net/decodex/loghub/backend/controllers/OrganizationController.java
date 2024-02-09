@@ -93,7 +93,7 @@ public class OrganizationController {
     }
 
     @Operation(summary = "Update Organization Picture")
-    @PatchMapping(name = "/update-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(path = "/update-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAuthority('ORGANIZATION:UPDATE')")
     public FileDto updatePicture(@RequestPart("picture") MultipartFile file, Principal principal) {
         return organizationService.updatePicture(file, principal);

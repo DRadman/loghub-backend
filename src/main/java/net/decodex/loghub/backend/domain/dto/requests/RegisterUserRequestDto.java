@@ -1,4 +1,4 @@
-package net.decodex.loghub.backend.domain.dto;
+package net.decodex.loghub.backend.domain.dto.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

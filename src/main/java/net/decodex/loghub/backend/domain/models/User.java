@@ -41,6 +41,7 @@ public class User {
     private String lastName = "";
 
     private String profileIcon;
+    private String profileIconUrl;
 
     private boolean isActivated = false;
 

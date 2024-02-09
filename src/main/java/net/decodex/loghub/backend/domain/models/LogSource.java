@@ -27,13 +27,16 @@ public class LogSource {
 
     @NotNull
     @Indexed(unique = true)
-    private String name;
+    private String uniqueIdentifier;
 
     @NotNull
     private String os = "unknown";
 
     @NotNull
     private String osVersion = "unknown";
+
+    @NotNull
+    private String environment = "unknown";
 
     @NotNull
     private String ipAddress = "unknown";
@@ -49,10 +52,6 @@ public class LogSource {
     @DBRef(lazy = true)
     @NotNull
     private Project project;
-
-    @DBRef(lazy = true)
-    @NotNull
-    private Platform platform;
 
     @CreatedDate
     private LocalDateTime createdAt;

@@ -42,9 +42,6 @@ public class LogSession {
     @NotNull
     private List<LogEntry> logs = new ArrayList<>();
 
-    @CreatedDate
-    private LocalDateTime createdAt;
-
     @LastModifiedDate
     private LocalDateTime updatedAt;
 }

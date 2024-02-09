@@ -1,6 +1,7 @@
 package net.decodex.loghub.backend.domain.mappers;
 
-import net.decodex.loghub.backend.domain.dto.RegisterUserRequestDto;
+import net.decodex.loghub.backend.controllers.UserProfileChangeRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.RegisterUserRequestDto;
 import net.decodex.loghub.backend.domain.dto.UserDto;
 import net.decodex.loghub.backend.domain.models.User;
 import org.mapstruct.*;
@@ -20,4 +21,11 @@ public interface UserMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User partialUpdate(RegisterUserRequestDto registerUserRequestDto, @MappingTarget User user);
+
+    User toEntity(UserProfileChangeRequestDto userProfileChangeRequestDto);
+
+    UserProfileChangeRequestDto toDto2(User user);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    User partialUpdate(UserProfileChangeRequestDto userProfileChangeRequestDto, @MappingTarget User user);
 }

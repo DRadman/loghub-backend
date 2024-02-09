@@ -4,6 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import net.decodex.loghub.backend.domain.dto.*;
+import net.decodex.loghub.backend.domain.dto.requests.AuthenticationRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.ForgotPasswordRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.RefreshTokenRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.RegisterUserRequestDto;
 import net.decodex.loghub.backend.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +50,11 @@ public class AuthController {
     @GetMapping("/username/taken")
     public boolean isUsernameTaken(@RequestParam String username) {
         return authService.isUsernameTaken(username);
+    }
+
+    @Operation(summary = "Retrieves information whether username is taken or not")
+    @PostMapping("/forgot-password")
+    public UserDto isUsernameTaken(@RequestBody @Valid ForgotPasswordRequestDto dto) {
+        return authService.forgotPassword(dto);
     }
 }

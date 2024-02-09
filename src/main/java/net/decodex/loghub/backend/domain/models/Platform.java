@@ -29,9 +29,6 @@ public class Platform {
     private PlatformType type;
 
     @NotNull
-    private String version = "undefined";
-
-    @NotNull
     private String iconUrl;
 
     @NotNull

@@ -60,9 +60,11 @@ public class LogEntry {
     @Indexed(name = "log_source_index")
     private LogSource logSource;
 
-    @DBRef(lazy = true)
     @NotNull
     private DeviceState deviceState;
+
+    @NotNull
+    private String environment = "unknown";
 
     @DBRef(lazy = true)
     @NotNull
@@ -82,7 +84,7 @@ public class LogEntry {
 
     public int calculateHash() {
         // Example: Concatenate title, type, message, stackTrace and calculate hash
-        return Objects.hash(level, message, stackTrace);
+        return Objects.hash(level, message, stackTrace, environment);
     }
 
     @CreatedDate

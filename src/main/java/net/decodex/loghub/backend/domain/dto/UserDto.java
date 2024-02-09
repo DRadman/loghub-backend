@@ -22,7 +22,7 @@ public class UserDto implements Serializable {
     private String email;
     private String firstName;
     private String lastName;
-    private String profileIcon;
+    private String profileIconUrl;
     private boolean isActivated;
     private RoleDto role;
     private LocalDateTime createdAt;

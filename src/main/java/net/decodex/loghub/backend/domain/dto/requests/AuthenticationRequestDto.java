@@ -1,4 +1,4 @@
-package net.decodex.loghub.backend.domain.dto;
+package net.decodex.loghub.backend.domain.dto.requests;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -11,8 +11,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RefreshTokenRequestDto implements Serializable {
+public class AuthenticationRequestDto implements Serializable {
     @NotNull
     @NotEmpty
-    private String refreshToken;
+    private String username;
+
+    @NotNull
+    @NotEmpty
+    private String password;
 }

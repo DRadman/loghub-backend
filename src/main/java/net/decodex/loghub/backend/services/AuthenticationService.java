@@ -1,13 +1,14 @@
 package net.decodex.loghub.backend.services;
 
+import com.mailjet.client.errors.MailjetException;
 import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.config.auth.JwtService;
 import net.decodex.loghub.backend.config.auth.UserSecurity;
-import net.decodex.loghub.backend.domain.dto.RegisterUserRequestDto;
-import net.decodex.loghub.backend.domain.dto.UserDto;
-import net.decodex.loghub.backend.domain.dto.AuthenticationRequestDto;
-import net.decodex.loghub.backend.domain.dto.RefreshTokenRequestDto;
-import net.decodex.loghub.backend.domain.dto.TokenResponseDto;
+import net.decodex.loghub.backend.domain.dto.*;
+import net.decodex.loghub.backend.domain.dto.requests.AuthenticationRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.ForgotPasswordRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.RefreshTokenRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.RegisterUserRequestDto;
 import net.decodex.loghub.backend.domain.mappers.UserMapper;
 import net.decodex.loghub.backend.domain.models.User;
 import net.decodex.loghub.backend.exceptions.specifications.AuthenticationException;
@@ -30,6 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final JwtService jwtService;
+    private final MailService mailService;
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -115,5 +117,20 @@ public class AuthenticationService {
 
     public boolean isUsernameTaken(String username) {
         return userRepository.findByUsername(username).isPresent();
+    }
+
+    public UserDto forgotPassword(ForgotPasswordRequestDto dto) {
+        var user = userRepository.findByUsername(dto.getUsername());
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("User", "username", dto.getUsername());
+        }
+
+        try {
+            mailService.sendForgotPassword(user.get());
+        } catch (MailjetException e) {
+            throw new RuntimeException(e);
+        }
+
+        return userMapper.toDto(user.get());
     }
 }

@@ -1,13 +1,10 @@
 package net.decodex.loghub.backend.services;
 
-import com.mailjet.client.MailjetClient;
-import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.errors.MailjetException;
-import com.mailjet.client.resource.Emailv31;
 import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.domain.dto.CreateInvitationDto;
 import net.decodex.loghub.backend.domain.dto.InvitationDto;
-import net.decodex.loghub.backend.domain.dto.RegisterUserRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.RegisterUserRequestDto;
 import net.decodex.loghub.backend.domain.dto.UserDto;
 import net.decodex.loghub.backend.domain.mappers.InvitationMapper;
 import net.decodex.loghub.backend.domain.mappers.UserMapper;
@@ -21,9 +18,6 @@ import net.decodex.loghub.backend.repositories.InvitationRepository;
 import net.decodex.loghub.backend.repositories.OrganizationRepository;
 import net.decodex.loghub.backend.repositories.RoleRepository;
 import net.decodex.loghub.backend.repositories.UserRepository;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,20 +35,7 @@ public class InvitationService {
     private final OrganizationRepository organizationRepository;
     private final AuthenticationService authenticationService;
     private final RoleRepository roleRepository;
-    private final MailjetClient mailjetClient;
-
-    @Value("${app.cms.url}")
-    String cmsUrl;
-
-    @Value("${app.name}")
-    String appName;
-
-    @Value("${mailjet.email}")
-    String email;
-
-    @Value("${mailjet.invitation-template-id}")
-    int invitationTemplateId;
-
+    private final MailService mailService;
     public InvitationDto findById(String invitationId) {
         var invitation = invitationRepository.findById(invitationId);
         if (invitation.isEmpty()) {
@@ -122,31 +103,11 @@ public class InvitationService {
         organizationRepository.save(organization);
 
         try {
-            sendInvitationEmail(invitation);
+            mailService.sendInvitationEmail(invitation);
         } catch (MailjetException e) {
             throw new RuntimeException(e);
         }
 
         return invitationMapper.toDto(invitation);
-    }
-
-    private void sendInvitationEmail(Invitation invitation) throws MailjetException {
-        var request = new MailjetRequest(Emailv31.resource)
-                .property(Emailv31.MESSAGES, new JSONArray()
-                        .put(new JSONObject()
-                                .put(Emailv31.Message.FROM, new JSONObject()
-                                        .put("Email", email)
-                                        .put("Name", appName))
-                                .put(Emailv31.Message.TO, new JSONArray()
-                                        .put(new JSONObject()
-                                                .put("Email", invitation.getEmail())
-                                                .put("Name", invitation.getEmail().split("@")[0])))
-                                .put(Emailv31.Message.TEMPLATEID, invitationTemplateId)
-                                .put(Emailv31.Message.TEMPLATELANGUAGE, true)
-                                .put(Emailv31.Message.SUBJECT, "Invitation to " + appName)
-                                .put(Emailv31.Message.VARIABLES, new JSONObject()
-                                        .put("organization_name", invitation.getOrganization().getName())
-                                        .put("invitation_link", cmsUrl+"/invitation/"+invitation.getInvitationId()))));
-       mailjetClient.post(request);
     }
 }

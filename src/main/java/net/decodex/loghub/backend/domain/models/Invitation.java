@@ -2,6 +2,7 @@ package net.decodex.loghub.backend.domain.models;
 
 import com.querydsl.core.annotations.QueryEntity;
 import lombok.*;
+import net.decodex.loghub.backend.enums.InvitationStatus;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,6 +26,9 @@ public class Invitation {
 
     @NotNull
     private String email;
+
+    @NotNull
+    private InvitationStatus status = InvitationStatus.INVITED;
 
     @DBRef(lazy = true)
     @NotNull

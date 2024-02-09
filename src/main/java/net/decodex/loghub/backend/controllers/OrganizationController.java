@@ -36,30 +36,35 @@ public class OrganizationController {
 
     @GetMapping("")
     @Operation(summary = "Get Logged user Organization")
+    @PreAuthorize("hasAuthority('ORGANIZATION:READ')")
     public OrganizationDto findLoggedUserOrganization(Principal principal) {
         return organizationService.findLoggedUserOrganization(principal);
     }
 
     @GetMapping("/teams")
     @Operation(summary = "Get Logged user organization Teams")
+    @PreAuthorize("hasAuthority('TEAM:READ')")
     public List<TeamDto> findLoggedUserOrganizationTeams(Principal principal) {
         return organizationService.findLoggedUserOrganizationTeams(principal);
     }
 
     @GetMapping("/members")
     @Operation(summary = "Get Logged user organization Members")
+    @PreAuthorize("hasAuthority('USER:READ')")
     public List<UserDto> findLoggedUserOrganizationMembers(Principal principal) {
         return organizationService.findLoggedUserOrganizationMembers(principal);
     }
 
     @GetMapping("/projects")
     @Operation(summary = "Get Logged user organization Projects")
+    @PreAuthorize("hasAuthority('PROJECT:READ')")
     public List<ProjectDto> findLoggedUserOrganizationProjects(Principal principal) {
         return organizationService.findLoggedUserOrganizationProjects(principal);
     }
 
     @GetMapping("/invitations")
     @Operation(summary = "Get Logged user organization Invitations")
+    @PreAuthorize("hasAuthority('INVITATION:READ')")
     public List<InvitationDto> findLoggedUserOrganizationInvitations(Principal principal) {
         return organizationService.findLoggedUserOrganizationInvitations(principal);
     }

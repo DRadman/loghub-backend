@@ -27,7 +27,8 @@ public class PermissionService {
                 new Permission(ResourceType.PROJECT_RELEASE, List.of(CREATE, READ, UPDATE, DELETE)),
                 new Permission(ResourceType.ROLE, List.of(CREATE, READ, UPDATE, DELETE)),
                 new Permission(ResourceType.TEAM, List.of(CREATE, READ, UPDATE, DELETE)),
-                new Permission(ResourceType.USER, List.of(CREATE, READ, UPDATE, DELETE))
+                new Permission(ResourceType.USER, List.of(CREATE, READ, UPDATE, DELETE)),
+                new Permission(ResourceType.INVITATION, List.of(CREATE, READ, UPDATE, DELETE))
         );
     }
 
@@ -47,7 +48,8 @@ public class PermissionService {
                 new Permission(ResourceType.PROJECT_RELEASE, List.of(READ)),
                 new Permission(ResourceType.ROLE, List.of(READ)),
                 new Permission(ResourceType.TEAM, List.of(READ)),
-                new Permission(ResourceType.USER, List.of(READ))
+                new Permission(ResourceType.USER, List.of(READ)),
+                new Permission(ResourceType.INVITATION, List.of(READ))
         );
     }
 
@@ -67,7 +69,8 @@ public class PermissionService {
                 new Permission(ResourceType.PROJECT_RELEASE, List.of(READ, CREATE, UPDATE, DELETE)),
                 new Permission(ResourceType.ROLE, List.of(READ)),
                 new Permission(ResourceType.TEAM, List.of(READ, CREATE, UPDATE, DELETE)),
-                new Permission(ResourceType.USER, List.of(READ))
+                new Permission(ResourceType.USER, List.of(READ)),
+                new Permission(ResourceType.INVITATION, List.of(CREATE, READ, UPDATE, DELETE))
         );
     }
 
@@ -87,7 +90,8 @@ public class PermissionService {
                 new Permission(ResourceType.PROJECT_RELEASE, List.of(READ)),
                 new Permission(ResourceType.ROLE, List.of(READ)),
                 new Permission(ResourceType.TEAM, List.of(READ)),
-                new Permission(ResourceType.USER, List.of(READ))
+                new Permission(ResourceType.USER, List.of(READ)),
+                new Permission(ResourceType.INVITATION, List.of(READ))
         );
     }
 }

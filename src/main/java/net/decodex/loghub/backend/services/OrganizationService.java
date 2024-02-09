@@ -4,10 +4,12 @@ import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.domain.dto.*;
 import net.decodex.loghub.backend.domain.mappers.*;
+import net.decodex.loghub.backend.enums.InvitationStatus;
 import net.decodex.loghub.backend.exceptions.specifications.BadRequestException;
 import net.decodex.loghub.backend.exceptions.specifications.OrganizationNotPresentException;
 import net.decodex.loghub.backend.exceptions.specifications.ResourceAlreadyExistsException;
 import net.decodex.loghub.backend.exceptions.specifications.ResourceNotFoundException;
+import net.decodex.loghub.backend.repositories.InvitationRepository;
 import net.decodex.loghub.backend.repositories.OrganizationRepository;
 import net.decodex.loghub.backend.repositories.UserRepository;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,7 @@ public class OrganizationService {
     private final ProjectMapper projectMapper;
     private final TeamMapper teamMapper;
     private final InvitationMapper invitationMapper;
+    private final InvitationRepository invitationRepository;
 
     public OrganizationDto findById(String organizationId) {
         var organization = organizationRepository.findById(organizationId);
@@ -63,7 +66,7 @@ public class OrganizationService {
         }
 
         var organization = organizationMapper.toEntity(dto);
-        if(!user.getRole().isInternal()) {
+        if (!user.getRole().isInternal()) {
             organization.setOwner(user);
             organization = this.organizationRepository.save(organization);
             user.setOrganization(organization);
@@ -82,7 +85,7 @@ public class OrganizationService {
     public List<UserDto> findLoggedUserOrganizationMembers(Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
         var organization = user.getOrganization();
-        if(organization == null) {
+        if (organization == null) {
             throw new OrganizationNotPresentException();
         }
         return organization.getMembers().stream().map(userMapper::toDto).collect(Collectors.toList());
@@ -91,7 +94,7 @@ public class OrganizationService {
     public List<ProjectDto> findLoggedUserOrganizationProjects(Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
         var organization = user.getOrganization();
-        if(organization == null) {
+        if (organization == null) {
             throw new OrganizationNotPresentException();
         }
         return organization.getProjects().stream().map(projectMapper::toDto).collect(Collectors.toList());
@@ -100,7 +103,7 @@ public class OrganizationService {
     public List<TeamDto> findLoggedUserOrganizationTeams(Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
         var organization = user.getOrganization();
-        if(organization == null) {
+        if (organization == null) {
             throw new OrganizationNotPresentException();
         }
         return organization.getTeams().stream().map(teamMapper::toDto).collect(Collectors.toList());
@@ -109,9 +112,11 @@ public class OrganizationService {
     public List<InvitationDto> findLoggedUserOrganizationInvitations(Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
         var organization = user.getOrganization();
-        if(organization == null) {
+        if (organization == null) {
             throw new OrganizationNotPresentException();
         }
-        return organization.getInvitations().stream().map(invitationMapper::toDto).collect(Collectors.toList());
+
+        return invitationRepository.findByOrganizationAndStatus(organization, InvitationStatus.INVITED).stream()
+                .map(invitationMapper::toDto).collect(Collectors.toList());
     }
 }

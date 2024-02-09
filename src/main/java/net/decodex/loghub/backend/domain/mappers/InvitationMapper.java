@@ -1,5 +1,6 @@
 package net.decodex.loghub.backend.domain.mappers;
 
+import net.decodex.loghub.backend.domain.dto.CreateInvitationDto;
 import net.decodex.loghub.backend.domain.dto.InvitationDto;
 import net.decodex.loghub.backend.domain.models.Invitation;
 import org.mapstruct.*;

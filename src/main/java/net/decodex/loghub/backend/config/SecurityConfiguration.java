@@ -44,7 +44,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/actuator", "/actuator/**", "/api-docs",
                             "/api/v1/auth/authenticate", "/api/v1/auth/refreshToken", "/api/v1/auth/register", "/api/v1/auth/username/taken",
-                            "/api/v1/invitation/details/*", "/api/v1/invitation/accept/*",
+                            "/api/v1/invitation/details/*", "/api/v1/invitation/accept/*", "/api/v1/files/public/**",
                             "/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
                             "/error/**", "/error", "/ws", "/ws/**").permitAll();
                     auth.anyRequest().authenticated();

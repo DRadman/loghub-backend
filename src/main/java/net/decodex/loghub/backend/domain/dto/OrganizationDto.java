@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @ToString
 public class OrganizationDto implements Serializable {
     private String organizationId;
-    private String picture;
+    private String pictureUrl;
     private String slug;
     private String name;
     private LocalDateTime createdAt;

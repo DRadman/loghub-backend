@@ -33,8 +33,8 @@ public class Organization {
     @NotNull
     private String name;
 
-    @NotNull
     private String picture;
+    private String pictureUrl;
 
     @DBRef(lazy = true)
     @NotNull

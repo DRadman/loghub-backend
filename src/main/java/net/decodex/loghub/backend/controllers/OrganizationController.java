@@ -13,8 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
@@ -89,5 +91,13 @@ public class OrganizationController {
     public OrganizationDto createOrganization(@RequestBody @Valid CreateOrganizationRequestDto dto, Principal principal) {
         return organizationService.createOrganization(dto, principal);
     }
+
+    @Operation(summary = "Update Organization Picture")
+    @PatchMapping(name = "/update-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAuthority('ORGANIZATION:UPDATE')")
+    public FileDto updatePicture(@RequestPart("picture") MultipartFile file, Principal principal) {
+        return organizationService.updatePicture(file, principal);
+    }
+
 
 }

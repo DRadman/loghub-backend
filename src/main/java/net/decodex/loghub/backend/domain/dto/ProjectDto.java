@@ -18,5 +18,4 @@ public class ProjectDto implements Serializable {
     private String projectId;
     private String name;
     private PlatformDto platform;
-    private List<ProjectReleaseDto> releases;
 }

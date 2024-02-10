@@ -33,6 +33,20 @@ public class TeamService {
     private final OrganizationRepository organizationRepository;
     private final ProjectRepository projectRepository;
 
+    public List<TeamDto> findAllTeams(String search, Principal principal) {
+        var user = authenticationService.getLoggedUser(principal.getName());
+        if (user.getOrganization() == null) {
+            throw new OrganizationNotPresentException();
+        }
+
+        if (search == null || search.isEmpty()) {
+            return user.getOrganization().getTeams().stream().map(teamMapper::toDto).collect(Collectors.toList());
+        } else {
+            var teams = teamRepository.findBySlugContainsIgnoreCaseAndOrganization(search, user.getOrganization());
+            return teams.stream().map(teamMapper::toDto).collect(Collectors.toList());
+        }
+    }
+
     public boolean isSlugTaken(String slug, Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
         if (user.getOrganization() == null) {

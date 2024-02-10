@@ -43,34 +43,6 @@ public class OrganizationController {
         return organizationService.findLoggedUserOrganization(principal);
     }
 
-    @GetMapping("/teams")
-    @Operation(summary = "Get Logged user organization Teams")
-    @PreAuthorize("hasAuthority('TEAM:READ')")
-    public List<TeamDto> findLoggedUserOrganizationTeams(Principal principal) {
-        return organizationService.findLoggedUserOrganizationTeams(principal);
-    }
-
-    @GetMapping("/members")
-    @Operation(summary = "Get Logged user organization Members")
-    @PreAuthorize("hasAuthority('USER:READ')")
-    public List<UserDto> findLoggedUserOrganizationMembers(Principal principal) {
-        return organizationService.findLoggedUserOrganizationMembers(principal);
-    }
-
-    @GetMapping("/projects")
-    @Operation(summary = "Get Logged user organization Projects")
-    @PreAuthorize("hasAuthority('PROJECT:READ')")
-    public List<ProjectDto> findLoggedUserOrganizationProjects(Principal principal) {
-        return organizationService.findLoggedUserOrganizationProjects(principal);
-    }
-
-    @GetMapping("/invitations")
-    @Operation(summary = "Get Logged user organization Invitations")
-    @PreAuthorize("hasAuthority('INVITATION:READ')")
-    public List<InvitationDto> findLoggedUserOrganizationInvitations(Principal principal) {
-        return organizationService.findLoggedUserOrganizationInvitations(principal);
-    }
-
     @GetMapping("/slug/taken")
     @Operation(summary = "Retrieves information whether organization slug is taken or not")
     public boolean isOrganizationSlugTaken(@RequestParam String slug) {

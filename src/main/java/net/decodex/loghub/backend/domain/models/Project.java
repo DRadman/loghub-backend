@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -36,21 +37,22 @@ public class Project {
     private Platform platform;
 
     @DBRef(lazy = true)
-    private List<Team> projectTeams;
+    @NotNull
+    private List<Team> projectTeams = new ArrayList<>();
 
     @NotNull
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
 
     @NotNull
-    private List<String> environments;
-
-    @DBRef(lazy = true)
-    @NotNull
-    private List<ProjectRelease> releases;
+    private List<String> environments = new ArrayList<>();
 
     @DBRef(lazy = true)
     @NotNull
-    private List<DebugFile> debugFiles;
+    private List<ProjectRelease> releases = new ArrayList<>();
+
+    @DBRef(lazy = true)
+    @NotNull
+    private List<DebugFile> debugFiles = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdAt;

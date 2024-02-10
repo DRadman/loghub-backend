@@ -25,6 +25,7 @@ public class ProjectRelease {
     private String releaseId;
 
     @NotNull
+    @Indexed
     private String version = "undefined";
 
     @CreatedDate
@@ -33,9 +34,6 @@ public class ProjectRelease {
     @DBRef(lazy = true)
     @Indexed(name = "project_index")
     private Project project;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;

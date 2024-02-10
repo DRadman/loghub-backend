@@ -26,7 +26,7 @@ public class TeamController {
     @GetMapping("")
     @Operation(summary = "Retrieves all teams")
     @PreAuthorize("hasAuthority('TEAM:READ')")
-    public List<TeamDto> findAllTeams(@RequestParam String search, Principal principal) {
+    public List<TeamDto> findAllTeams(@RequestParam(required = false) String search, Principal principal) {
         return teamService.findAllTeams(search, principal);
     }
 

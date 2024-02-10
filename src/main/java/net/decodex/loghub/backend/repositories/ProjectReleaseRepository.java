@@ -8,5 +8,6 @@ import org.springframework.lang.NonNull;
 import java.util.Collection;
 
 public interface ProjectReleaseRepository extends MongoRepository<ProjectRelease, String> {
+    boolean existsByVersionAndProject(@NonNull String version, @NonNull Project project);
     void deleteByProjectIn(@NonNull Collection<Project> projects);
 }

@@ -1,6 +1,7 @@
 package net.decodex.loghub.backend.domain.mappers;
 
 import net.decodex.loghub.backend.domain.dto.ProjectDto;
+import net.decodex.loghub.backend.domain.dto.requests.ProjectRequestDto;
 import net.decodex.loghub.backend.domain.models.Project;
 import org.mapstruct.*;
 
@@ -12,4 +13,11 @@ public interface ProjectMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Project partialUpdate(ProjectDto projectDto, @MappingTarget Project project);
+
+    Project toEntity(ProjectRequestDto projectRequestDto);
+
+    ProjectRequestDto toDto1(Project project);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Project partialUpdate(ProjectRequestDto projectRequestDto, @MappingTarget Project project);
 }

@@ -44,6 +44,9 @@ public class LogSource {
     @NotNull
     private String cpuInfo = "unknown";
 
+    @NotNull
+    private String macAddress = "unknown";
+
     private int maxRam = 0;
 
     @NotNull

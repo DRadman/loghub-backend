@@ -81,6 +81,7 @@ public class LogEntry {
     @DBRef(lazy = true)
     private ProjectRelease projectRelease;
 
+    @Indexed
     private int hashValue = calculateHash();
 
     public int calculateHash() {

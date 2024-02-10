@@ -23,7 +23,7 @@ public class MembersController {
     @GetMapping("")
     @Operation(summary = "Find all members")
     @PreAuthorize("hasAuthority('USER:READ')")
-    public MembersDto findAllMembers(Principal principal, @RequestParam MembersQueryDto query) {
+    public MembersDto findAllMembers(Principal principal, @RequestParam(required = false) MembersQueryDto query) {
         return membersService.findAll(principal, query);
     }
 

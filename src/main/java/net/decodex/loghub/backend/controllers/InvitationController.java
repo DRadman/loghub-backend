@@ -8,6 +8,7 @@ import net.decodex.loghub.backend.domain.dto.InvitationDto;
 import net.decodex.loghub.backend.domain.dto.requests.RegisterUserRequestDto;
 import net.decodex.loghub.backend.domain.dto.UserDto;
 import net.decodex.loghub.backend.services.InvitationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -26,6 +27,7 @@ public class InvitationController {
 
     @PostMapping("/send")
     @SecurityRequirement(name = "Bearer Authentication")
+    @PreAuthorize("hasAuthority('INVITATION:CREATE')")
     public InvitationDto sendInvitation(Principal principal, @RequestBody @Valid CreateInvitationDto dto) {
         return invitationService.sendInvitation(principal, dto);
     }

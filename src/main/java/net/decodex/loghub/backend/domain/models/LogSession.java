@@ -30,6 +30,12 @@ public class LogSession {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
+    @NotNull
+    private String networkType = "unknown";
+
+    @NotNull
+    private String networkSpeed = "unknown";
+
     private boolean crashFree = true;
 
     @DBRef(lazy = true)

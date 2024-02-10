@@ -39,4 +39,12 @@ public class CryptoService {
     public String decryptStringFromBase64(String base64EncriptedString) {
         return decryptString(new String(Base64.getDecoder().decode(base64EncriptedString)));
     }
+
+    public String toBase64(String string) {
+        return Base64.getEncoder().encodeToString(string.getBytes());
+    }
+
+    public String fromBase64(String base64String) {
+        return new String(Base64.getDecoder().decode(base64String));
+    }
 }

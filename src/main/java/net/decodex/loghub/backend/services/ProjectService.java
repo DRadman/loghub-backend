@@ -3,7 +3,10 @@ package net.decodex.loghub.backend.services;
 import com.jlefebure.spring.boot.minio.MinioException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import net.decodex.loghub.backend.domain.dto.*;
+import net.decodex.loghub.backend.domain.dto.DebugFileDto;
+import net.decodex.loghub.backend.domain.dto.ProjectDto;
+import net.decodex.loghub.backend.domain.dto.ProjectReleaseDto;
+import net.decodex.loghub.backend.domain.dto.TeamDto;
 import net.decodex.loghub.backend.domain.dto.requests.CreateProjectReleaseDto;
 import net.decodex.loghub.backend.domain.dto.requests.ProjectRequestDto;
 import net.decodex.loghub.backend.domain.mappers.DebugFileMapper;
@@ -12,16 +15,11 @@ import net.decodex.loghub.backend.domain.mappers.ProjectReleaseMapper;
 import net.decodex.loghub.backend.domain.mappers.TeamMapper;
 import net.decodex.loghub.backend.domain.models.DebugFile;
 import net.decodex.loghub.backend.domain.models.Project;
-import net.decodex.loghub.backend.domain.models.ProjectRelease;
 import net.decodex.loghub.backend.enums.DebugFileType;
 import net.decodex.loghub.backend.enums.ResourceType;
-import net.decodex.loghub.backend.exceptions.specifications.ForbiddenActionException;
-import net.decodex.loghub.backend.exceptions.specifications.OrganizationNotPresentException;
-import net.decodex.loghub.backend.exceptions.specifications.ResourceAlreadyExistsException;
-import net.decodex.loghub.backend.exceptions.specifications.ResourceNotFoundException;
+import net.decodex.loghub.backend.exceptions.specifications.*;
 import net.decodex.loghub.backend.repositories.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +34,7 @@ public class ProjectService {
 
     private final FileStorageService fileStorageService;
     private final AuthenticationService authenticationService;
+    private final CryptoService cryptoService;
 
     private final LogSourceRepository logSourceRepository;
     private final LogEntryRepository logEntryRepository;
@@ -73,7 +72,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectOp);
         }
 
@@ -91,7 +90,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -115,7 +114,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -139,7 +138,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectOp);
         }
 
@@ -157,7 +156,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -178,7 +177,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -199,7 +198,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectOp);
         }
 
@@ -217,7 +216,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -238,7 +237,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -295,7 +294,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectOp);
         }
 
@@ -313,7 +312,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -341,7 +340,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -364,7 +363,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectOp);
         }
 
@@ -383,7 +382,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -412,7 +411,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -444,7 +443,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -491,7 +490,7 @@ public class ProjectService {
             throw new OrganizationNotPresentException();
         }
         var projectOp = projectRepository.findById(projectId);
-        if(projectOp.isEmpty()) {
+        if (projectOp.isEmpty()) {
             throw new ResourceNotFoundException("Project", "projectId", projectId);
         }
 
@@ -510,6 +509,58 @@ public class ProjectService {
             project.setPlatform(platformOp.get());
             project.setTags(platformOp.get().getDefaultTags());
             project = projectRepository.save(project);
+            return projectMapper.toDto(project);
+        } else {
+            throw new ForbiddenActionException("Not member of organization");
+        }
+    }
+
+    public String getProjectKey(String projectId, Principal principal) {
+        var user = authenticationService.getLoggedUser(principal.getName());
+        if (user.getOrganization() == null) {
+            throw new OrganizationNotPresentException();
+        }
+        var projectOp = projectRepository.findById(projectId);
+        if (projectOp.isEmpty()) {
+            throw new ResourceNotFoundException("Project", "projectId", projectId);
+        }
+
+        var project = projectOp.get();
+        if (project.getOrganization().getOrganizationId().equals(user.getOrganization().getOrganizationId())) {
+            return cryptoService.toBase64(projectId);
+        } else {
+            throw new ForbiddenActionException("Not member of organization");
+        }
+    }
+
+    public Project getProjectByKey(String projectKey) {
+        String projectId;
+        try {
+            projectId = cryptoService.fromBase64(projectKey);
+        } catch (Exception e) {
+            throw new BadRequestException("Invalid project key");
+        }
+
+        var projectOp = projectRepository.findById(projectId);
+        if (projectOp.isEmpty()) {
+            throw new ResourceNotFoundException("Project", "projectId", projectId);
+        }
+
+        return projectOp.get();
+    }
+
+    public ProjectDto getProjectById(String projectId, Principal principal) {
+        var user = authenticationService.getLoggedUser(principal.getName());
+        if (user.getOrganization() == null) {
+            throw new OrganizationNotPresentException();
+        }
+        var projectOp = projectRepository.findById(projectId);
+        if (projectOp.isEmpty()) {
+            throw new ResourceNotFoundException("Project", "projectId", projectId);
+        }
+
+        var project = projectOp.get();
+        if (project.getOrganization().getOrganizationId().equals(user.getOrganization().getOrganizationId())) {
             return projectMapper.toDto(project);
         } else {
             throw new ForbiddenActionException("Not member of organization");

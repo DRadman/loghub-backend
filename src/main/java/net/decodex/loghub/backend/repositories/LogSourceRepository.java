@@ -6,7 +6,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface LogSourceRepository extends MongoRepository<LogSource, String> {
+    Optional<LogSource> findByUniqueIdentifier(@NonNull String uniqueIdentifier);
     void deleteByProjectIn(@NonNull Collection<Project> projects);
 }

@@ -26,8 +26,8 @@ public class LogSession {
     @MongoId
     private String sessionId;
 
-    @CreatedDate
-    private LocalDateTime startTime;
+    @NotNull
+    private LocalDateTime startTime = LocalDateTime.now();
     private LocalDateTime endTime;
 
     @NotNull
@@ -52,4 +52,7 @@ public class LogSession {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
 }

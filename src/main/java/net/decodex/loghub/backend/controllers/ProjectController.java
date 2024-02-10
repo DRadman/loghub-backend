@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import net.decodex.loghub.backend.annotations.IsEnum;
 import net.decodex.loghub.backend.annotations.IsMongoId;
 import net.decodex.loghub.backend.domain.dto.DebugFileDto;
 import net.decodex.loghub.backend.domain.dto.ProjectDto;
@@ -13,7 +12,7 @@ import net.decodex.loghub.backend.domain.dto.ProjectReleaseDto;
 import net.decodex.loghub.backend.domain.dto.TeamDto;
 import net.decodex.loghub.backend.domain.dto.requests.CreateProjectReleaseDto;
 import net.decodex.loghub.backend.domain.dto.requests.ProjectRequestDto;
-import net.decodex.loghub.backend.domain.dto.requests.TeamRequestDto;
+import net.decodex.loghub.backend.domain.mappers.ProjectMapper;
 import net.decodex.loghub.backend.enums.DebugFileType;
 import net.decodex.loghub.backend.services.ProjectService;
 import org.springframework.http.MediaType;
@@ -31,6 +30,7 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final ProjectMapper projectMapper;
 
     @GetMapping("")
     @Operation(summary = "Retrieves all projects")
@@ -46,11 +46,31 @@ public class ProjectController {
         return projectService.isProjectNameTaken(name, principal);
     }
 
+    @GetMapping("/details")
+    @Operation(summary = "Retrieves information whether project name is taken or not")
+    public ProjectDto getProjectKeyDetails(@RequestHeader("X-API-KEY") String key) {
+        return projectMapper.toDto(projectService.getProjectByKey(key));
+    }
+
+    @Operation(summary = "Get Project Key")
+    @GetMapping(path = "/{projectId}/key")
+    @PreAuthorize("hasAuthority('PROJECT:READ')")
+    public String getProjectKey(Principal principal, @PathVariable("projectId") @IsMongoId String projectId) {
+        return projectService.getProjectKey(projectId, principal);
+    }
+
     @Operation(summary = "Get Project Teams")
     @GetMapping(path = "/{projectId}/teams")
     @PreAuthorize("hasAuthority('PROJECT:READ')")
     public List<TeamDto> getProjectTeams(Principal principal, @PathVariable("projectId") @IsMongoId String projectId) {
         return projectService.getProjectTeams(projectId, principal);
+    }
+
+    @Operation(summary = "Get Project By id")
+    @GetMapping(path = "/{projectId}")
+    @PreAuthorize("hasAuthority('PROJECT:READ')")
+    public ProjectDto getProjectById(Principal principal, @PathVariable("projectId") @IsMongoId String projectId) {
+        return projectService.getProjectById(projectId, principal);
     }
 
     @Operation(summary = "Add Project Teams")

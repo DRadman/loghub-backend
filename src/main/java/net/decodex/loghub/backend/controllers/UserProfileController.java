@@ -39,7 +39,6 @@ public class UserProfileController {
 
     @Operation(summary = "Update User Picture")
     @PatchMapping(path = "/update-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasAuthority('ORGANIZATION:UPDATE')")
     @SecurityRequirement(name = "Bearer Authentication")
     public FileDto updatePicture(@RequestPart("picture") MultipartFile file, Principal principal) {
         return userProfileService.updatePicture(file, principal);

@@ -6,6 +6,7 @@ import net.decodex.loghub.backend.enums.PlatformType;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -26,10 +27,13 @@ public class Platform {
     private String platformId;
 
     @NotNull
+    @Indexed
     private PlatformType type;
 
-    @NotNull
+    private String version;
+
     private String iconUrl;
+    private String icon;
 
     @NotNull
     private List<String> defaultTags = new ArrayList<>();

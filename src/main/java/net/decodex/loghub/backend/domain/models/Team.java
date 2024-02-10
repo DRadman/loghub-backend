@@ -39,6 +39,7 @@ public class Team {
 
     @DBRef(lazy = true)
     @NotNull
+    @Indexed(name = "organization_index")
     private Organization organization;
 
     @CreatedDate

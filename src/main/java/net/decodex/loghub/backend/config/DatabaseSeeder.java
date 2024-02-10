@@ -1,15 +1,19 @@
 package net.decodex.loghub.backend.config;
 
 import jakarta.annotation.PostConstruct;
+import net.decodex.loghub.backend.domain.models.Platform;
 import net.decodex.loghub.backend.domain.models.Role;
 import net.decodex.loghub.backend.domain.models.User;
+import net.decodex.loghub.backend.enums.PlatformType;
+import net.decodex.loghub.backend.repositories.PlatformRepository;
 import net.decodex.loghub.backend.repositories.RoleRepository;
 import net.decodex.loghub.backend.repositories.UserRepository;
 import net.decodex.loghub.backend.services.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
 
 @Configuration
 public class DatabaseSeeder {
@@ -25,11 +29,14 @@ public class DatabaseSeeder {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PlatformRepository platformRepository;
 
     @PostConstruct()
     public void seedDatabase() {
         seedRoles();
         seedUsers();
+        seedPlatforms();
     }
 
     public void seedRoles() {
@@ -98,6 +105,45 @@ public class DatabaseSeeder {
             role.setName("Guest");
             role.setPermissions(permissionService.getGuestPermissions());
             this.roleRepository.save(role);
+        }
+    }
+
+    private void seedPlatforms() {
+        var platforms = platformRepository.findAll();
+        if (platforms.isEmpty()) {
+            var platformTypes = PlatformType.values();
+            for (int i = 0; i < platformTypes.length; i++) {
+                var currentType = platformTypes[i];
+                var platform = new Platform();
+                platform.setType(currentType);
+                var tags = new ArrayList<String>();
+                tags.add("handled");
+                tags.add("browser");
+                tags.add("browser.name");
+                tags.add("transaction");
+                tags.add("url");
+                tags.add("user");
+                tags.add("release");
+                tags.add("sample_event");
+                tags.add("package.name");
+
+                if (currentType == PlatformType.EXPRESS || currentType == PlatformType.SERVER ||
+                        currentType == PlatformType.NEST || currentType == PlatformType.GO ||
+                        currentType == PlatformType.SPRING || currentType == PlatformType.CS ||
+                        currentType == PlatformType.RUBY || currentType == PlatformType.RUST ||
+                        currentType == PlatformType.LARAVEL || currentType == PlatformType.PYTHON) {
+                    tags.add("runtime");
+                    tags.add("runtime.name");
+                    tags.add("server_name");
+                } else {
+                    tags.add("replyId");
+                }
+
+                if (currentType == PlatformType.ANDROID || currentType == PlatformType.IOS) {
+                    tags.add("installer_store");
+                }
+                platform.setDefaultTags(tags);
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class PlatformDto implements Serializable {
     private String platformId;
     private PlatformType type;
-    private String version = "undefined";
+    private String version;
     private String iconUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

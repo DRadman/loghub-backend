@@ -31,6 +31,13 @@ public class ExceptionHandlingController {
 		return new ResponseEntity<ExceptionResponse>(response, HttpStatus.BAD_REQUEST);
 	}
 
+	@ExceptionHandler(ForbiddenActionException.class)
+	public ResponseEntity<ExceptionResponse> forbiddenException(ForbiddenActionException ex) {
+		ExceptionResponse response = new ExceptionResponse(HttpStatus.FORBIDDEN, ex.getMessage(),
+				ex.getLocalizedMessage());
+		return new ResponseEntity<ExceptionResponse>(response, HttpStatus.FORBIDDEN);
+	}
+
 	@ExceptionHandler(AuthenticationException.class)
 	public ResponseEntity<ExceptionResponse> authenticationException(AuthenticationException ex) {
 		ExceptionResponse response = new ExceptionResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(),

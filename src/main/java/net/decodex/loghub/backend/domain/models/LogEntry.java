@@ -1,6 +1,7 @@
 package net.decodex.loghub.backend.domain.models;
 
 import com.querydsl.core.annotations.QueryEntity;
+import kotlin.Pair;
 import lombok.*;
 import net.decodex.loghub.backend.enums.LogEntryLevel;
 import net.decodex.loghub.backend.enums.LogEntryStatus;
@@ -46,7 +47,7 @@ public class LogEntry {
 
     private String stackTrace;
     @Indexed(name = "tags_with_value_index")
-    private Map<String, String> tagsWithValue = Collections.emptyMap();
+    private List<Pair<String, String>> tagsWithValue = Collections.emptyList();
 
     private LocalDateTime timestamp;
 
@@ -84,7 +85,7 @@ public class LogEntry {
 
     public int calculateHash() {
         // Example: Concatenate title, type, message, stackTrace and calculate hash
-        return Objects.hash(level, message, stackTrace, environment);
+        return Objects.hash(level, message, stackTrace, environment, tagsWithValue);
     }
 
     @CreatedDate

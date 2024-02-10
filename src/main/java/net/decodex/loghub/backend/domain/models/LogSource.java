@@ -51,6 +51,7 @@ public class LogSource {
 
     @DBRef(lazy = true)
     @NotNull
+    @Indexed(name = "project_index")
     private Project project;
 
     @CreatedDate

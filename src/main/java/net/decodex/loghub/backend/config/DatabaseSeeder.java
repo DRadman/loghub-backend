@@ -143,6 +143,7 @@ public class DatabaseSeeder {
                     tags.add("installer_store");
                 }
                 platform.setDefaultTags(tags);
+                platformRepository.save(platform);
             }
         }
     }

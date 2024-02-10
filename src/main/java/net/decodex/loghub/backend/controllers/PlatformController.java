@@ -39,6 +39,13 @@ public class PlatformController {
         return platformService.findById(platformId);
     }
 
+    @GetMapping("/{platformId}/tags")
+    @Operation(summary = "Get default tags for platform by id")
+    @PreAuthorize("hasAuthority('PLATFORM:READ')")
+    public List<String> getPlatformTags(@RequestParam("platformId") @IsMongoId String platformId) {
+        return platformService.findPlatformDefaultTags(platformId);
+    }
+
     @Operation(summary = "Update Platform Picture")
     @PatchMapping(path = "/{platformId}/update-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Bearer Authentication")

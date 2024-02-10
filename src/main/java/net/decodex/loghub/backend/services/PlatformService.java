@@ -111,4 +111,13 @@ public class PlatformService {
 
         return platformMapper.toDto(platform);
     }
+
+    public List<String> findPlatformDefaultTags(String platformId) {
+        var platformOp = platformRepository.findById(platformId);
+        if (platformOp.isEmpty()) {
+            throw new ResourceNotFoundException("Platform", "platformId", platformId);
+        }
+
+        return platformOp.get().getDefaultTags();
+    }
 }

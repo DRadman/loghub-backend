@@ -2,7 +2,7 @@ package net.decodex.loghub.backend.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import net.decodex.loghub.backend.controllers.UserProfileChangeRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.UserProfileChangeRequestDto;
 import net.decodex.loghub.backend.domain.dto.FileDto;
 import net.decodex.loghub.backend.domain.dto.UserDto;
 import net.decodex.loghub.backend.domain.dto.requests.ChangePasswordRequestDto;

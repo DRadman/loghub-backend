@@ -1,6 +1,6 @@
 package net.decodex.loghub.backend.domain.mappers;
 
-import net.decodex.loghub.backend.controllers.UserProfileChangeRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.UserProfileChangeRequestDto;
 import net.decodex.loghub.backend.domain.dto.requests.RegisterUserRequestDto;
 import net.decodex.loghub.backend.domain.dto.UserDto;
 import net.decodex.loghub.backend.domain.models.User;

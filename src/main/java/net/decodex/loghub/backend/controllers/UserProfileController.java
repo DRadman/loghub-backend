@@ -4,13 +4,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import net.decodex.loghub.backend.domain.dto.requests.UserProfileChangeRequestDto;
 import net.decodex.loghub.backend.domain.dto.requests.ChangePasswordRequestDto;
 import net.decodex.loghub.backend.domain.dto.FileDto;
 import net.decodex.loghub.backend.domain.dto.requests.ResetPasswordRequestDto;
 import net.decodex.loghub.backend.domain.dto.UserDto;
 import net.decodex.loghub.backend.services.UserProfileService;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

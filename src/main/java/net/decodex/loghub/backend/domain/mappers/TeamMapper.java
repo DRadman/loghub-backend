@@ -1,5 +1,6 @@
 package net.decodex.loghub.backend.domain.mappers;
 
+import net.decodex.loghub.backend.domain.dto.requests.TeamRequestDto;
 import net.decodex.loghub.backend.domain.dto.TeamDto;
 import net.decodex.loghub.backend.domain.models.Team;
 import org.mapstruct.*;
@@ -12,4 +13,11 @@ public interface TeamMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Team partialUpdate(TeamDto teamDto, @MappingTarget Team team);
+
+    Team toEntity(TeamRequestDto teamRequestDto);
+
+    TeamRequestDto toDto1(Team team);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Team partialUpdate(TeamRequestDto teamRequestDto, @MappingTarget Team team);
 }

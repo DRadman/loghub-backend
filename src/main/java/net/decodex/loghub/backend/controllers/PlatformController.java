@@ -35,14 +35,14 @@ public class PlatformController {
     @GetMapping("/{platformId}")
     @Operation(summary = "Get Platform by id")
     @PreAuthorize("hasAuthority('PLATFORM:READ')")
-    public PlatformDto getPlatformById(@RequestParam("platformId") @IsMongoId String platformId) {
+    public PlatformDto getPlatformById(@PathVariable("platformId") @IsMongoId String platformId) {
         return platformService.findById(platformId);
     }
 
     @GetMapping("/{platformId}/tags")
     @Operation(summary = "Get default tags for platform by id")
     @PreAuthorize("hasAuthority('PLATFORM:READ')")
-    public List<String> getPlatformTags(@RequestParam("platformId") @IsMongoId String platformId) {
+    public List<String> getPlatformTags(@PathVariable("platformId") @IsMongoId String platformId) {
         return platformService.findPlatformDefaultTags(platformId);
     }
 
@@ -50,7 +50,7 @@ public class PlatformController {
     @PatchMapping(path = "/{platformId}/update-picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAuthority('PLATFORM:UPDATE')")
-    public FileDto updatePicture(@RequestPart("picture") MultipartFile file, @RequestParam("platformId") @IsMongoId String platformId) {
+    public FileDto updatePicture(@RequestPart("picture") MultipartFile file, @PathVariable("platformId") @IsMongoId String platformId) {
         return platformService.updatePicture(file, platformId);
     }
 
@@ -58,16 +58,15 @@ public class PlatformController {
     @PatchMapping(path = "/tags/{platformId}")
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAuthority('PLATFORM:UPDATE')")
-    public PlatformDto updatePlatform(@RequestBody @NotNull List<String> dto, @RequestParam("platformId") @IsMongoId String platformId) {
+    public PlatformDto updatePlatform(@RequestBody @NotNull List<String> dto, @PathVariable("platformId") @IsMongoId String platformId) {
         return platformService.updatePlatformTags(dto, platformId);
     }
-
 
     @Operation(summary = "Update Platform")
     @PatchMapping(path = "/{platformId}")
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAuthority('PLATFORM:UPDATE')")
-    public PlatformDto updatePlatform(@RequestBody @Valid PlatformRequestDto dto, @RequestParam("platformId") @IsMongoId String platformId) {
+    public PlatformDto updatePlatform(@RequestBody @Valid PlatformRequestDto dto, @PathVariable("platformId") @IsMongoId String platformId) {
         return platformService.updatePlatform(dto, platformId);
     }
 
@@ -83,7 +82,7 @@ public class PlatformController {
     @DeleteMapping(path = "/{platformId}")
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAuthority('PLATFORM:DELETE')")
-    public Object deletePlatform(@RequestParam("platformId") @IsMongoId String platformId) {
+    public Object deletePlatform(@PathVariable("platformId") @IsMongoId String platformId) {
         return platformService.deletePlatform(platformId);
     }
 }

@@ -30,6 +30,7 @@ public class SecurityConfiguration {
             "http://localhost:8080",
             "http://localhost:4200",
             "http://localhost",
+            "*"
     };
 
     @Autowired
@@ -40,7 +41,6 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/actuator", "/actuator/**", "/api-docs",
                             "/api/v1/auth/authenticate", "/api/v1/auth/refreshToken", "/api/v1/auth/register", "/api/v1/auth/username/taken",

@@ -44,7 +44,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 	implementation 'com.mailjet:mailjet-client:5.2.5'
-	implementation 'com.jlefebure:spring-boot-starter-minio:1.4'
+	implementation 'com.jlefebure:spring-boot-starter-minio:1.10'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'

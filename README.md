@@ -12,12 +12,6 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/DRadman/loghub-backend.svg?style=flat&logo=github)
 
 
-[![GitHub stars](https://img.shields.io/github/stars/DRadman/loghub-backend.svg?style=social&label=Star)](https://github.com/DRadman/loghub-backend)
-[![GitHub watchers](https://img.shields.io/github/watchers/DRadman/loghub-backend.svg?style=social&label=Watch)](https://github.com/DRadman/loghub-backend)
-[![GitHub forks](https://img.shields.io/github/forks/DRadman/loghub-backend.svg?style=social&label=Fork)](https://github.com/DRadman/loghub-backend)
-[![GitHub followers](https://img.shields.io/github/followers/DRadman.svg?style=social&label=Follow)](https://github.com/JonSnow/MyBadges) 
-[![Tweet](https://img.shields.io/twitter/url/https/github.com/DRadman/loghub-backend.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20LogHub!%20%E2%9C%A8%20An%20remote,%20open-source%20centralized%20logging%20solution%20for%20any%20user%20E2%9C%A8%20https://github.com/DRadman/loghub-backend%20%F0%9F%A4%97)
-<br>
 # LogHub - Remote Centralized Logging Solution (Backend)
 This project is a Spring Boot backend application that provides a remote centralized logging solution. It allows you to collect and manage logs from distributed applications in a centralized location, enhancing troubleshooting and monitoring capabilities.
 

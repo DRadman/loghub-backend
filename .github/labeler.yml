@@ -3,127 +3,19 @@
 # Specify label rules here
 # Each rule consists of a label name and a list of conditions that need to be met in order to apply the label
 
-rules:
-  # Label for bug-related issues
-  - name: bugfix
-    conditions:
-      - 'contains(title, "bug")'
-      - 'contains(body, "bug")'
-      - 'contains(labels, "bug")'
-      - 'contains(title, "bugfix")'
-      - 'contains(body, "bugfix")'
-      - 'contains(labels, "bugfix")'
-      - 'contains(title, "Bug")'
-      - 'contains(body, "Bug")'
-      - 'contains(labels, "Bug")'
-      - 'contains(title, "Bugfix")'
-      - 'contains(body, "Bugfix")'
-      - 'contains(labels, "Bugfix")'
-      - 'contains(title, "fix")'
-      - 'contains(body, "fix")'
-      - 'contains(labels, "fix")'
-      - 'contains(title, "fixed")'
-      - 'contains(body, "fixed")'
-      - 'contains(labels, "fixed")'
-      - 'contains(title, "Fix")'
-      - 'contains(body, "Fix")'
-      - 'contains(labels, "Fix")'
-      - 'contains(title, "Fixed")'
-      - 'contains(body, "Fixed")'
-      - 'contains(labels, "Fixed")'
+feature:
+  - head-branch: ['^feature', 'feature', '^feat', 'feat']
 
-  # Label for hotfixes
-  - name: hotfix
-    conditions:
-      - 'contains(title, "hotfix")'
-      - 'contains(body, "hotfix")'
-      - 'contains(labels, "hotfix")'
-      - 'contains(title, "Hotfix")'
-      - 'contains(body, "Hotfix")'
-      - 'contains(labels, "Hotfix")'
+bug:
+  - head-branch: ['^bugfix', 'bugfix', '^bug', 'bug']
 
-  # Label for general improvements
-  - name: improvement
-    conditions:
-      - 'contains(title, "improvement")'
-      - 'contains(body, "improvement")'
-      - 'contains(labels, "improvement")'
-      - 'contains(title, "Improvement")'
-      - 'contains(body, "Improvement")'
-      - 'contains(labels, "Improvement")'
-      - 'contains(title, "improved")'
-      - 'contains(body, "improved")'
-      - 'contains(labels, "improved")'
-      - 'contains(title, "Improved")'
-      - 'contains(body, "Improved")'
-      - 'contains(labels, "Improved")'
+hotfix:
+  - head-branch: ['^hotfix', 'hotfix']
 
-  # Label for refactor
-  - name: refactor
-    conditions:
-      - 'contains(title, "refactor")'
-      - 'contains(body, "refactor")'
-      - 'contains(labels, "refactor")'
-      - 'contains(title, "refactored")'
-      - 'contains(body, "refactored")'
-      - 'contains(labels, "refactored")'
-      - 'contains(title, "Refactor")'
-      - 'contains(body, "Refactor")'
-      - 'contains(labels, "Refactor")'
-      - 'contains(title, "Refactored")'
-      - 'contains(body, "Refactored")'
-      - 'contains(labels, "Refactored")'
+enhancement:
+  - head-branch: ['^enhancement', 'enhancement', '^improvement', 'improvement']
 
-  # Label for feature requests
-  - name: feature
-    conditions:
-      - 'contains(title, "feature")'
-      - 'contains(body, "feature")'
-      - 'contains(labels, "feature")'
-      - 'contains(title, "feat")'
-      - 'contains(body, "feat")'
-      - 'contains(labels, "feat")'
-      - 'contains(title, "Feature")'
-      - 'contains(body, "Feature")'
-      - 'contains(labels, "Feature")'
-      - 'contains(title, "Feat")'
-      - 'contains(body, "Feat")'
-      - 'contains(labels, "Feat")'
-
-  # Label for documentations requests
-  - name: documentation
-    conditions:
-      - 'contains(title, "documentation")'
-      - 'contains(body, "documentation")'
-      - 'contains(labels, "documentation")'
-      - 'contains(title, "docs")'
-      - 'contains(body, "docs")'
-      - 'contains(labels, "docs")'
-      - 'contains(title, "Documentation")'
-      - 'contains(body, "Documentation")'
-      - 'contains(labels, "Documentation")'
-      - 'contains(title, "Docs")'
-      - 'contains(body, "Docs")'
-      - 'contains(labels, "Docs")'
-
-  # Label for pull requests that are work in progress
-  - name: draft
-    conditions:
-      - 'contains(title, "WIP")'
-      - 'contains(body, "WIP")'
-      - 'contains(labels, "WIP")'
-      - 'contains(title, "wip")'
-      - 'contains(body, "wip")'
-      - 'contains(labels, "wip")'
-      - 'contains(title, "Wip")'
-      - 'contains(body, "Wip")'
-      - 'contains(labels, "Wip")'
-      - 'contains(title, "DRAFT")'
-      - 'contains(body, "DRAFT")'
-      - 'contains(labels, "DRAFT")'
-      - 'contains(title, "draft")'
-      - 'contains(body, "draft")'
-      - 'contains(labels, "draft'
-      - 'contains(title, "Draft")'
-      - 'contains(body, "Draft")'
-      - 'contains(labels, "Draft")'
+documentation:
+  - head-branch: ['^documentation', 'documentation', '^doc', 'doc', '^docs', 'docs']
+  - changed-files:
+    - any-glob-to-any-file: ['docs/**', 'documentation/**' 'guides/*', '**/*.md']

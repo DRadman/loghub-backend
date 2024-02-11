@@ -1,0 +1,39 @@
+services:
+  mongodb:
+    image: 'mongo:latest'
+    environment:
+      - 'MONGO_INITDB_DATABASE=loghub-database'
+      - 'MONGO_INITDB_ROOT_PASSWORD=dbPassword'
+      - 'MONGO_INITDB_ROOT_USERNAME=dbUser'
+    ports:
+      - '27017:27017'
+  minio:
+    image: 'docker.io/bitnami/minio:2022'
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - 'minio_data:/data'
+    environment:
+      - 'MINIO_ROOT_USER=loghub'
+      - 'MINIO_ROOT_PASSWORD=minioPassword'
+      - 'MINIO_DEFAULT_BUCKETS=loghub-bucket'
+
+  loghub:
+    image: 'ghcr.io/dradman/loghub-backend:latest'
+    ports:
+      - "8080:8080"
+    environment:
+      - 'DB_HOST:mongodb'
+      - 'DB_PORT:27017'
+      - 'DB_NAME:loghub-database'
+      - 'DB_USERNAME:dbUser'
+      - 'DB_PASSWORD:dbPassword'
+      - 'MINIO_HOST:minio:9000'
+      - 'MINIO_ACCESS_KEY:yourMinioAccessKey'
+      - 'MINIO_SECRET_KEY:yourMinioSecretKey'
+      - 'MINIO_BUCKET:loghub-bucket'
+
+volumes:
+  minio_data:
+    driver: local

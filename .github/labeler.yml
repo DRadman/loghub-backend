@@ -16,6 +16,5 @@ enhancement:
   - head-branch: ['^enhancement', 'enhancement', '^improvement', 'improvement']
 
 documentation:
-  - head-branch: ['^documentation', 'documentation', '^doc', 'doc', '^docs', 'docs']
   - changed-files:
     - any-glob-to-any-file: ['docs/**', 'documentation/**' 'guides/*', '**/*.md']

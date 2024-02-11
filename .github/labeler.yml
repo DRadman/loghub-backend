@@ -17,4 +17,4 @@ enhancement:
 
 documentation:
   - changed-files:
-    - any-glob-to-any-file: ['docs/**', 'documentation/**' 'guides/*', '**/*.md']
+    - any-glob-to-any-file: ['docs/**', 'documentation/**', 'guides/*', '**/*.md']

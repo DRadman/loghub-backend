@@ -4,17 +4,17 @@
 # Each rule consists of a label name and a list of conditions that need to be met in order to apply the label
 
 feature:
-  - head-branch: ['^feature', 'feature', '^feat', 'feat']
+- head-branch: ['^feature', 'feature', '^feat', 'feat']
 
 bug:
-  - head-branch: ['^bugfix', 'bugfix', '^bug', 'bug']
+- head-branch: ['^bugfix', 'bugfix', '^bug', 'bug']
 
 hotfix:
-  - head-branch: ['^hotfix', 'hotfix']
+- head-branch: ['^hotfix', 'hotfix']
 
 enhancement:
-  - head-branch: ['^enhancement', 'enhancement', '^improvement', 'improvement']
+- head-branch: ['^enhancement', 'enhancement', '^improvement', 'improvement']
 
 documentation:
-  - changed-files:
-    - any-glob-to-any-file: ['docs/**', 'documentation/**', 'guides/*', '**/*.md']
+- changed-files:
+  - any-glob-to-any-file: ['docs/**', 'documentation/**', 'guides/*', '**/*.md']

@@ -16,8 +16,6 @@ import java.util.Arrays;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CORSFilter extends OncePerRequestFilter {
 
-
-
     @Override
     public void doFilterInternal(HttpServletRequest req, HttpServletResponse resp,
                                  FilterChain chain) throws IOException, ServletException {
@@ -38,10 +36,6 @@ public class CORSFilter extends OncePerRequestFilter {
             chain.doFilter(req, resp);
         }
 
-    }
-
-    @Override
-    public void destroy() {
     }
 
 }

@@ -51,7 +51,7 @@ public class MailService {
                                 .put(Emailv31.Message.SUBJECT, "Invitation to " + appName)
                                 .put(Emailv31.Message.VARIABLES, new JSONObject()
                                         .put("organization_name", invitation.getOrganization().getName())
-                                        .put("invitation_link", cmsUrl + "/invitation/" + invitation.getInvitationId()))));
+                                        .put("invitation_link", cmsUrl + "/auth/invitation/" + invitation.getInvitationId()))));
         mailjetClient.post(request);
     }
 
@@ -72,7 +72,7 @@ public class MailService {
                                 .put(Emailv31.Message.SUBJECT, appName + " reset password")
                                 .put(Emailv31.Message.VARIABLES, new JSONObject()
                                         .put("username", user.getUsername())
-                                        .put("reset_password_link", cmsUrl + "/reset-password/" + hash))));
+                                        .put("reset_password_link", cmsUrl + "/auth/reset-password/" + hash))));
         mailjetClient.post(request);
     }
 

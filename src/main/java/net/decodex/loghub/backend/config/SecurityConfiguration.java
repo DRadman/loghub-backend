@@ -47,7 +47,7 @@ public class SecurityConfiguration {
                             "/api/v1/auth/authenticate", "/api/v1/auth/refreshToken", "/api/v1/auth/register", "/api/v1/auth/username/taken",
                             "/api/v1/invitation/details/*", "/api/v1/invitation/accept/*", "/api/v1/files/public/**",
                             "/api/v1/project/details",
-                            "/api/v1/user-profile/reset-password", "/api/v1/auth/forgot-password",
+                            "/api/v1/auth/reset-password", "/api/v1/auth/forgot-password",
                             "/api/v1/device/register", "/api/v1/device/start-session/*", "/api/v1/device/update-session/*",
                             "/api/v1/log/capture", "/api/v1/log/message", "/api/v1/log/analytic", "/api/v1/log/vitals",
                             "/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",

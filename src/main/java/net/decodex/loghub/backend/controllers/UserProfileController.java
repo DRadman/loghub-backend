@@ -44,10 +44,4 @@ public class UserProfileController {
         return userProfileService.updatePicture(file, principal);
     }
 
-    @Operation(summary = "Reset User password")
-    @PostMapping("/reset-password")
-    public UserDto resetPassword(@RequestBody @Valid ResetPasswordRequestDto dto) {
-        return userProfileService.resetPassword(dto);
-    }
-
 }

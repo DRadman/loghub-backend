@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.config.auth.JwtService;
 import net.decodex.loghub.backend.config.auth.UserSecurity;
 import net.decodex.loghub.backend.domain.dto.*;
-import net.decodex.loghub.backend.domain.dto.requests.AuthenticationRequestDto;
-import net.decodex.loghub.backend.domain.dto.requests.ForgotPasswordRequestDto;
-import net.decodex.loghub.backend.domain.dto.requests.RefreshTokenRequestDto;
-import net.decodex.loghub.backend.domain.dto.requests.RegisterUserRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.*;
 import net.decodex.loghub.backend.domain.mappers.UserMapper;
 import net.decodex.loghub.backend.domain.models.User;
 import net.decodex.loghub.backend.exceptions.specifications.AuthenticationException;
@@ -32,6 +29,7 @@ import java.util.Optional;
 public class AuthenticationService {
     private final JwtService jwtService;
     private final MailService mailService;
+    private final CryptoService cryptoService;
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -132,5 +130,17 @@ public class AuthenticationService {
         }
 
         return userMapper.toDto(user.get());
+    }
+
+    public UserDto resetPassword(ResetPasswordRequestDto dto) {
+        var userId = cryptoService.decryptStringFromBase64(dto.getHash());
+        var opUser = userRepository.findById(userId);
+        if (opUser.isEmpty()) {
+            throw new ResourceNotFoundException("User", "userId", userId);
+        }
+
+        var user = opUser.get();
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        return userMapper.toDto(userRepository.save(user));
     }
 }

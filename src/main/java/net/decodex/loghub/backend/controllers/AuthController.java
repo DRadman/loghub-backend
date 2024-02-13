@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import net.decodex.loghub.backend.domain.dto.*;
-import net.decodex.loghub.backend.domain.dto.requests.AuthenticationRequestDto;
-import net.decodex.loghub.backend.domain.dto.requests.ForgotPasswordRequestDto;
-import net.decodex.loghub.backend.domain.dto.requests.RefreshTokenRequestDto;
-import net.decodex.loghub.backend.domain.dto.requests.RegisterUserRequestDto;
+import net.decodex.loghub.backend.domain.dto.requests.*;
 import net.decodex.loghub.backend.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -52,9 +49,15 @@ public class AuthController {
         return authService.isUsernameTaken(username);
     }
 
-    @Operation(summary = "Retrieves information whether username is taken or not")
+    @Operation(summary = "Sends forgot password email for user")
     @PostMapping("/forgot-password")
     public UserDto isUsernameTaken(@RequestBody @Valid ForgotPasswordRequestDto dto) {
         return authService.forgotPassword(dto);
+    }
+
+    @Operation(summary = "Reset User password")
+    @PostMapping("/reset-password")
+    public UserDto resetPassword(@RequestBody @Valid ResetPasswordRequestDto dto) {
+        return authService.resetPassword(dto);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -60,6 +61,7 @@ public class SecurityConfiguration {
                 sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
+        http.addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class);
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.httpBasic(Customizer.withDefaults());
         return http.build();

@@ -45,17 +45,23 @@ public class MembersService {
             throw new OrganizationNotPresentException();
         }
 
-        if (query.getInvited() == InvitedSelector.TRUE) {
+        if (query != null && query.getInvited() == InvitedSelector.TRUE) {
             var invitations = filterInvitations(query.getSearch(), query.getRoleIds(), user.getOrganization());
             return new MembersDto(Collections.emptyList(), invitations, null);
-        } else if (query.getInvited() == InvitedSelector.FALSE) {
+        } else if (query != null && query.getInvited() == InvitedSelector.FALSE) {
             var members = filterUsers(query.getSearch(), query.getRoleIds(), user.getOrganization());
             var owner = userMapper.toDto(user.getOrganization().getOwner());
             members.sort(Comparator.comparing(UserDto::getCreatedAt));
             return new MembersDto(members, Collections.emptyList(), owner);
         } else {
-            var users = filterUsers(query.getSearch(), query.getRoleIds(), user.getOrganization());
-            var invitations = filterInvitations(query.getSearch(), query.getRoleIds(), user.getOrganization());
+            String search = null;
+            List<String> roleIds = null;
+            if (query != null) {
+                search = query.getSearch();
+                roleIds = query.getRoleIds();
+            }
+            var users = filterUsers(search, roleIds, user.getOrganization());
+            var invitations = filterInvitations(search, roleIds, user.getOrganization());
             var owner = userMapper.toDto(user.getOrganization().getOwner());
             users.sort(Comparator.comparing(UserDto::getCreatedAt));
             return new MembersDto(users, invitations, owner);

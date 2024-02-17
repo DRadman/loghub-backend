@@ -17,6 +17,6 @@ public class RoleService {
     private final RoleMapper roleMapper;
 
     public List<RoleDto> findAll() {
-        return roleRepository.findAll().stream().map(roleMapper::toDto).collect(Collectors.toList());
+        return roleRepository.findByIsInternal(false).stream().map(roleMapper::toDto).collect(Collectors.toList());
     }
 }

@@ -47,18 +47,18 @@ public class MembersService {
 
         if (query.getInvited() == InvitedSelector.TRUE) {
             var invitations = filterInvitations(query.getSearch(), query.getRoleIds(), user.getOrganization());
-            return new MembersDto(Collections.emptyList(), invitations);
+            return new MembersDto(Collections.emptyList(), invitations, null);
         } else if (query.getInvited() == InvitedSelector.FALSE) {
             var members = filterUsers(query.getSearch(), query.getRoleIds(), user.getOrganization());
-            members.add(userMapper.toDto(user.getOrganization().getOwner()));
+            var owner = userMapper.toDto(user.getOrganization().getOwner());
             members.sort(Comparator.comparing(UserDto::getCreatedAt));
-            return new MembersDto(members, Collections.emptyList());
+            return new MembersDto(members, Collections.emptyList(), owner);
         } else {
             var users = filterUsers(query.getSearch(), query.getRoleIds(), user.getOrganization());
             var invitations = filterInvitations(query.getSearch(), query.getRoleIds(), user.getOrganization());
-            users.add(userMapper.toDto(user.getOrganization().getOwner()));
+            var owner = userMapper.toDto(user.getOrganization().getOwner());
             users.sort(Comparator.comparing(UserDto::getCreatedAt));
-            return new MembersDto(users, invitations);
+            return new MembersDto(users, invitations, owner);
         }
     }
 

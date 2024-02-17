@@ -12,4 +12,5 @@ import java.util.List;
 public class MembersDto {
     private List<UserDto> users;
     private List<InvitationDto> invitations;
+    private UserDto owner;
 }

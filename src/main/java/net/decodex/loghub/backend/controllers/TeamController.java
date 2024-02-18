@@ -30,6 +30,12 @@ public class TeamController {
         return teamService.findAllTeams(search, principal);
     }
 
+    @GetMapping("my")
+    @Operation(summary = "Retrieves my teams")
+    public List<TeamDto> findAllUserTeams(Principal principal) {
+        return teamService.findAllUserTeams(principal);
+    }
+
     @GetMapping("/slug/taken")
     @Operation(summary = "Retrieves information team slug is taken or not")
     @PreAuthorize("hasAuthority('TEAM:READ')")

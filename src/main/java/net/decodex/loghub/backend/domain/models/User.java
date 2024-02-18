@@ -54,6 +54,7 @@ public class User {
     private List<Team> teams = new ArrayList<>();
 
     @DBRef(lazy = true)
+    @EqualsAndHashCode.Exclude
     private Organization organization;
 
     private LocalDateTime lastLoginTime;

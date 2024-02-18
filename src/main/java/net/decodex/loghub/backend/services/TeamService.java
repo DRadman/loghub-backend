@@ -47,6 +47,15 @@ public class TeamService {
         }
     }
 
+    public List<TeamDto> findAllUserTeams(Principal principal) {
+        var user = authenticationService.getLoggedUser(principal.getName());
+        if (user.getOrganization() == null) {
+            throw new OrganizationNotPresentException();
+        }
+
+        return user.getTeams().stream().map(teamMapper::toDto).collect(Collectors.toList());
+    }
+
     public boolean isSlugTaken(String slug, Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
         if (user.getOrganization() == null) {

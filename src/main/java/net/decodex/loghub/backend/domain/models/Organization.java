@@ -38,18 +38,23 @@ public class Organization {
 
     @DBRef(lazy = true)
     @NotNull
+    @EqualsAndHashCode.Exclude
     private User owner;
 
     @DBRef(lazy = true)
+    @EqualsAndHashCode.Exclude
     private List<User> members = new ArrayList<>();
 
     @DBRef(lazy = true)
+    @EqualsAndHashCode.Exclude
     private List<Team> teams = new ArrayList<>();
 
     @DBRef(lazy = true)
+    @EqualsAndHashCode.Exclude
     private List<Project> projects = new ArrayList<>();
 
     @DBRef(lazy = true)
+    @EqualsAndHashCode.Exclude
     private List<Invitation> invitations = new ArrayList<>();
 
     @CreatedDate

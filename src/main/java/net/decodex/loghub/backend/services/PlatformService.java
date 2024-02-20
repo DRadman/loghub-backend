@@ -10,6 +10,7 @@ import net.decodex.loghub.backend.enums.ResourceType;
 import net.decodex.loghub.backend.exceptions.specifications.OrganizationNotPresentException;
 import net.decodex.loghub.backend.exceptions.specifications.ResourceNotFoundException;
 import net.decodex.loghub.backend.repositories.*;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +30,7 @@ public class PlatformService {
 
     private final PlatformMapper platformMapper;
     public List<PlatformDto> findAll() {
-        return platformRepository.findAll().stream().map(platformMapper::toDto).collect(Collectors.toList());
+        return platformRepository.findAll(Sort.by(Sort.Direction.ASC, "type")).stream().map(platformMapper::toDto).collect(Collectors.toList());
     }
 
     public PlatformDto findById(String platformId) {

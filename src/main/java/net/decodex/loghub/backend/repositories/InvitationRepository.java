@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface InvitationRepository extends CrudRepository<Invitation, String> {
-    List<Invitation> findByRole_RoleIdInAndOrganization(@NonNull Collection<String> roleIds, @NonNull Organization organization);
-    List<Invitation> findByEmailContainsIgnoreCaseAndOrganization(@NonNull String email, @NonNull Organization organization);
-    List<Invitation> findByEmailContainsIgnoreCaseAndRole_RoleIdInAndOrganization(@NonNull String email, @NonNull Collection<String> roleIds, @NonNull Organization organization);
+    List<Invitation> findByRole_RoleIdInAndOrganizationAndStatus(@NonNull Collection<String> roleIds,  @NonNull Organization organization, @NonNull InvitationStatus status);
+    List<Invitation> findByEmailContainsIgnoreCaseAndOrganizationAndStatus(@NonNull String email, @NonNull Organization organization, @NonNull InvitationStatus status);
+    List<Invitation> findByEmailContainsIgnoreCaseAndRole_RoleIdInAndOrganizationAndStatus(@NonNull String email, @NonNull Collection<String> roleIds, @NonNull Organization organization, @NonNull InvitationStatus stat);
     List<Invitation> findByOrganization(@NonNull Organization organization);
     List<Invitation> findByOrganizationAndStatus(@NonNull Organization organization, @NonNull InvitationStatus status);
 

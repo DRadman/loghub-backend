@@ -9,6 +9,7 @@ import net.decodex.loghub.backend.domain.dto.queries.MembersQueryDto;
 import net.decodex.loghub.backend.domain.mappers.InvitationMapper;
 import net.decodex.loghub.backend.domain.mappers.UserMapper;
 import net.decodex.loghub.backend.domain.models.Organization;
+import net.decodex.loghub.backend.enums.InvitationStatus;
 import net.decodex.loghub.backend.exceptions.specifications.BadRequestException;
 import net.decodex.loghub.backend.exceptions.specifications.ForbiddenActionException;
 import net.decodex.loghub.backend.exceptions.specifications.OrganizationNotPresentException;
@@ -86,16 +87,16 @@ public class MembersService {
 
     private List<InvitationDto> filterInvitations(String search, List<String> roleIds, Organization organization) {
         if (search == null && (roleIds == null || roleIds.isEmpty())) {
-            var invitations = invitationRepository.findByOrganization(organization);
+            var invitations = invitationRepository.findByOrganizationAndStatus(organization, InvitationStatus.INVITED);
             return invitations.stream().map(invitationMapper::toDto).collect(Collectors.toList());
         } else if (search != null && roleIds != null && !roleIds.isEmpty()) {
-            var invitations = invitationRepository.findByEmailContainsIgnoreCaseAndRole_RoleIdInAndOrganization(search, roleIds, organization);
+            var invitations = invitationRepository.findByEmailContainsIgnoreCaseAndRole_RoleIdInAndOrganizationAndStatus(search, roleIds, organization, InvitationStatus.INVITED);
             return invitations.stream().map(invitationMapper::toDto).collect(Collectors.toList());
         } else if (search != null) {
-            var invitations = invitationRepository.findByEmailContainsIgnoreCaseAndOrganization(search, organization);
+            var invitations = invitationRepository.findByEmailContainsIgnoreCaseAndOrganizationAndStatus(search, organization, InvitationStatus.INVITED);
             return invitations.stream().map(invitationMapper::toDto).collect(Collectors.toList());
         } else {
-            var invitations = invitationRepository.findByRole_RoleIdInAndOrganization(roleIds, organization);
+            var invitations = invitationRepository.findByRole_RoleIdInAndOrganizationAndStatus(roleIds, organization, InvitationStatus.INVITED);
             return invitations.stream().map(invitationMapper::toDto).collect(Collectors.toList());
         }
     }

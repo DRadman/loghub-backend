@@ -63,7 +63,7 @@ public class PermissionService {
                 new Permission(ResourceType.LOG_ENTRY, List.of(READ, CREATE, UPDATE, DELETE)),
                 new Permission(ResourceType.LOG_SESSION, List.of(READ, CREATE, UPDATE, DELETE)),
                 new Permission(ResourceType.LOG_SOURCE, List.of(READ, CREATE, UPDATE, DELETE)),
-                new Permission(ResourceType.ORGANIZATION, List.of(READ, CREATE, UPDATE)),
+                new Permission(ResourceType.ORGANIZATION, List.of(READ, CREATE, UPDATE, DELETE)),
                 new Permission(ResourceType.PLATFORM, List.of(READ)),
                 new Permission(ResourceType.PROJECT, List.of(READ, CREATE, UPDATE, DELETE)),
                 new Permission(ResourceType.PROJECT_RELEASE, List.of(READ, CREATE, UPDATE, DELETE)),

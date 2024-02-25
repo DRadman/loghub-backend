@@ -83,36 +83,39 @@ password: admin123
 
 ## Environment Variables
 
-| Name                            | Description                                             | Default Value         | Required                  |
-|---------------------------------|---------------------------------------------------------|-----------------------|---------------------------|
-| SERVER_PORT                     | Port on which application will run                      | 8080                  | No                        |
-| SERVER_HOST                     | Host on which application will run                      | http://localhost:8080 | No, recommended to change |
-| ENVIRONMENT                     | Application Environment                                 | local                 | No                        |
-| CMS_URL                         | Url Of the CMS and where is running                     | http://localhost:4200 | No, recommended to change |
-| ENABLE_REGISTRATION             | Whether Registration of the new users is enabled or not | true                  | No                        |
-| APP_NAME                        | Name of the application                                 | LogHub                | No                        |
-| DB_HOST                         | Hostname of the database                                | localhost             | No, recommended to change |
-| DB_PORT                         | Port of the database                                    | 27017                 | No                        |
-| DB_USERNAME                     | Username to access database                             | loghub                | No                        |
-| DB_PASSWORD                     | Password to access database                             | xps*NI_mYJr6PT\*      | No, recommended to change |
-| JWT_KEY                         | Json Web Token Signing Key                              | superSecretKey        | No, recommended to change |
-| TOKEN_DURATION                  | Duration of the JWT access token in seconds             | 3600 (1 Hour)         | No                        |
-| REFRESH_TOKEN_DURATION          | Duration of the JWT refresh token in seconds            | 86400 (24 Hour)       | No                        |
-| SWAGGER_UI_PATH                 | Path for the SwaggerUI documentation                    | /swagger-ui.html      | No                        |
-| API_DOCS_PATH                   | Path for the OpenApi docs JSON Schema                   | /api-docs             | No                        |
-| MAILJET_ACCESS_KEY              | Access key for the MailJet Account                      | mailjetAccessKey      | Yes                       |
-| MAILJET_SECRET_KEY              | Secret key for the MailJet Account                      | mailjetSecretKey      | Yes                       |
-| MAILJET_SENDER_EMAIL            | Sender email for the MailJet Account                    | no-reply@decodex.net  | No, recommended to change |
-| MAILJET_INVITATION_TEMPLATE     | MailJet template id for the invitation email            | 5679542               | No                        |
-| MAILJET_RESET_PASSWORD_TEMPLATE | MailJet template id for reset password email            | 5681472               | No                        |
-| MINIO_ACCESS_KEY                | MinIO Access Key                                        | minioAccessKey        | Yes                       |
-| MINIO_SECRET_KEY                | MinIO Secret Key                                        | minioSecretKey        | Yes                       |
-| MINIO_BUCKET                    | Name of the minio bucket                                | loghub-bucket         | No                        |
-| MINIO_CHECK_BUCKET              | Checks whether minio bucket exists                      | true                  | No                        |
-| MINIO_CREATE_BUCKET             | Creates new minio bucket if it doesn't exist            | true                  | No                        |
-| MINIO_CONNECT_TIMEOUT           | Timeout period in seconds to connect to minio           | 10                    | No                        |
-| MINIO_READ_TIMEOUT              | Timeout period in seconds to read file from MinIO       | 10                    | No                        |
-| MINIO_WRITE_TIMEOUT             | Timeout period in seconds to write file to MinIO        | 60                    | No                        |
-| MAX_FILE_SIZE                   | Maximum file size which is to be uploaded               | 20MB                  | No                        |
-| MAX_REQUEST_SIZE                | Maximum request size                                    | 20MB                  | No                        |
-| FILE_SIZE_THRESHOLD             | Multipart file size threshold                           | 2KB                   | No                        |
+| Name                            | Description                                              | Default Value         | Required                  |
+|---------------------------------|----------------------------------------------------------|-----------------------|---------------------------|
+| SERVER_PORT                     | Port on which application will run                       | 8080                  | No                        |
+| SERVER_HOST                     | Host on which application will run                       | http://localhost:8080 | No, recommended to change |
+| ENVIRONMENT                     | Application Environment                                  | local                 | No                        |
+| CMS_URL                         | Url Of the CMS and where is running                      | http://localhost:4200 | No, recommended to change |
+| ENABLE_REGISTRATION             | Whether Registration of the new users is enabled or not  | true                  | No                        |
+| APP_NAME                        | Name of the application                                  | LogHub                | No                        |
+| DB_HOST                         | Hostname of the database                                 | localhost             | No, recommended to change |
+| DB_PORT                         | Port of the database                                     | 27017                 | No                        |
+| DB_USERNAME                     | Username to access database                              | loghub                | No                        |
+| DB_PASSWORD                     | Password to access database                              | xps*NI_mYJr6PT\*      | No, recommended to change |
+| JWT_KEY                         | Json Web Token Signing Key                               | superSecretKey        | No, recommended to change |
+| TOKEN_DURATION                  | Duration of the JWT access token in seconds              | 3600 (1 Hour)         | No                        |
+| REFRESH_TOKEN_DURATION          | Duration of the JWT refresh token in seconds             | 86400 (24 Hour)       | No                        |
+| SWAGGER_UI_PATH                 | Path for the SwaggerUI documentation                     | /swagger-ui.html      | No                        |
+| API_DOCS_PATH                   | Path for the OpenApi docs JSON Schema                    | /api-docs             | No                        |
+| MAILJET_ACCESS_KEY              | Access key for the MailJet Account                       | mailjetAccessKey      | Yes                       |
+| MAILJET_SECRET_KEY              | Secret key for the MailJet Account                       | mailjetSecretKey      | Yes                       |
+| MAILJET_SENDER_EMAIL            | Sender email for the MailJet Account                     | no-reply@decodex.net  | No, recommended to change |
+| MAILJET_INVITATION_TEMPLATE     | MailJet template id for the invitation email             | 5679542               | No                        |
+| MAILJET_RESET_PASSWORD_TEMPLATE | MailJet template id for reset password email             | 5681472               | No                        |
+| MINIO_ACCESS_KEY                | MinIO Access Key                                         | minioAccessKey        | Yes                       |
+| MINIO_SECRET_KEY                | MinIO Secret Key                                         | minioSecretKey        | Yes                       |
+| MINIO_BUCKET                    | Name of the minio bucket                                 | loghub-bucket         | No                        |
+| MINIO_CHECK_BUCKET              | Checks whether minio bucket exists                       | true                  | No                        |
+| MINIO_CREATE_BUCKET             | Creates new minio bucket if it doesn't exist             | true                  | No                        |
+| MINIO_CONNECT_TIMEOUT           | Timeout period in seconds to connect to minio            | 10                    | No                        |
+| MINIO_READ_TIMEOUT              | Timeout period in seconds to read file from MinIO        | 10                    | No                        |
+| MINIO_WRITE_TIMEOUT             | Timeout period in seconds to write file to MinIO         | 60                    | No                        |
+| MAX_FILE_SIZE                   | Maximum file size which is to be uploaded                | 20MB                  | No                        |
+| MAX_REQUEST_SIZE                | Maximum request size                                     | 20MB                  | No                        |
+| FILE_SIZE_THRESHOLD             | Multipart file size threshold                            | 2KB                   | No                        |
+| ELASTIC_USERNAME                | Username to use for elasticsearch                        | loghub                | No                        |
+| ELASTIC_PASSWORD                | Password for elasticsearch                               | xps*NI_mYJr6PT\*      | No, recommended to change |
+| ELASTIC_URIS                    | Uris to elastic nodes (comma separated)                  | http://localhost:9200 | No                        |

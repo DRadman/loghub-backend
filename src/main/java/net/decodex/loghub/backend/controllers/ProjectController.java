@@ -6,15 +6,14 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.annotations.IsMongoId;
-import net.decodex.loghub.backend.domain.dto.DebugFileDto;
-import net.decodex.loghub.backend.domain.dto.ProjectDto;
-import net.decodex.loghub.backend.domain.dto.ProjectReleaseDto;
-import net.decodex.loghub.backend.domain.dto.TeamDto;
+import net.decodex.loghub.backend.domain.dto.*;
 import net.decodex.loghub.backend.domain.dto.requests.CreateProjectReleaseDto;
 import net.decodex.loghub.backend.domain.dto.requests.ProjectRequestDto;
 import net.decodex.loghub.backend.domain.mappers.ProjectMapper;
 import net.decodex.loghub.backend.enums.DebugFileType;
 import net.decodex.loghub.backend.services.ProjectService;
+import net.decodex.loghub.backend.services.ProjectStatsService;
+import net.decodex.loghub.backend.services.crons.ProjectStatCron;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +29,7 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final ProjectStatsService projectStatsService;
     private final ProjectMapper projectMapper;
 
     @GetMapping("")
@@ -37,6 +37,13 @@ public class ProjectController {
     @PreAuthorize("hasAuthority('PROJECT:READ')")
     public List<ProjectDto> findAllProjects(@RequestParam(required = false) String search, Principal principal) {
         return projectService.findAllProjects(search, principal);
+    }
+
+    @GetMapping("my")
+    @Operation(summary = "Retrieves my projects")
+    @PreAuthorize("hasAuthority('PROJECT:READ')")
+    public List<ProjectDto> findMyProjects(@RequestParam(required = false) List<String> teamId, Principal principal) {
+        return projectService.findMyProjects(teamId, principal);
     }
 
     @GetMapping("/name/taken")
@@ -47,7 +54,7 @@ public class ProjectController {
     }
 
     @GetMapping("/details")
-    @Operation(summary = "Retrieves information whether project name is taken or not")
+    @Operation(summary = "Retrieves information of project by api key")
     public ProjectDto getProjectKeyDetails(@RequestHeader("X-API-KEY") String key) {
         return projectMapper.toDto(projectService.getProjectByKey(key));
     }
@@ -64,6 +71,13 @@ public class ProjectController {
     @PreAuthorize("hasAuthority('PROJECT:READ')")
     public List<TeamDto> getProjectTeams(Principal principal, @PathVariable("projectId") @IsMongoId String projectId) {
         return projectService.getProjectTeams(projectId, principal);
+    }
+
+    @Operation(summary = "Get Project Stats")
+    @GetMapping(path = "/{projectId}/stats")
+    @PreAuthorize("hasAuthority('PROJECT:READ')")
+    public GeneralProjectStatDto getProjectStats(Principal principal, @PathVariable("projectId") @IsMongoId String projectId) {
+        return projectStatsService.getProjectStats(projectId, principal);
     }
 
     @Operation(summary = "Get Project By id")

@@ -9,21 +9,20 @@ import net.decodex.loghub.backend.domain.dto.ProjectReleaseDto;
 import net.decodex.loghub.backend.domain.dto.TeamDto;
 import net.decodex.loghub.backend.domain.dto.requests.CreateProjectReleaseDto;
 import net.decodex.loghub.backend.domain.dto.requests.ProjectRequestDto;
-import net.decodex.loghub.backend.domain.mappers.DebugFileMapper;
-import net.decodex.loghub.backend.domain.mappers.ProjectMapper;
-import net.decodex.loghub.backend.domain.mappers.ProjectReleaseMapper;
-import net.decodex.loghub.backend.domain.mappers.TeamMapper;
+import net.decodex.loghub.backend.domain.mappers.*;
 import net.decodex.loghub.backend.domain.models.DebugFile;
 import net.decodex.loghub.backend.domain.models.Project;
 import net.decodex.loghub.backend.enums.DebugFileType;
 import net.decodex.loghub.backend.enums.ResourceType;
 import net.decodex.loghub.backend.exceptions.specifications.*;
 import net.decodex.loghub.backend.repositories.*;
+import net.decodex.loghub.backend.repositories.elastic.ProjectStatRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,6 +50,8 @@ public class ProjectService {
     private final ProjectReleaseMapper projectReleaseMapper;
     private final DebugFileMapper debugFileMapper;
     private final PlatformRepository platformRepository;
+    private final PlatformMapper platformMapper;
+    private final ProjectStatRepository projectStatRepository;
 
     public List<ProjectDto> findAllProjects(String search, Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
@@ -64,6 +65,22 @@ public class ProjectService {
             var projects = projectRepository.findByNameContainsIgnoreCaseAndOrganization(search, user.getOrganization());
             return projects.stream().map(projectMapper::toDto).collect(Collectors.toList());
         }
+    }
+
+    public List<ProjectDto> findMyProjects(List<String> teamIds, Principal principal) {
+        var user = authenticationService.getLoggedUser(principal.getName());
+        if (user.getOrganization() == null) {
+            throw new OrganizationNotPresentException();
+        }
+
+        var projects = new ArrayList<ProjectDto>();
+        if (teamIds == null || teamIds.isEmpty()) {
+            user.getTeams().forEach(team -> projects.addAll(team.getProjects().stream().map(projectMapper::toDto).toList()));
+        } else {
+            user.getTeams().stream().filter(team -> teamIds.contains(team.getTeamId())).forEach(team ->
+                    projects.addAll(team.getProjects().stream().map(projectMapper::toDto).toList()));
+        }
+        return projects;
     }
 
     public List<TeamDto> getProjectTeams(String projectId, Principal principal) {
@@ -478,6 +495,7 @@ public class ProjectService {
         project.setName(dto.getName());
         project.setPlatform(platformOp.get());
         project.setTags(platformOp.get().getDefaultTags());
+        project.setOrganization(organization);
         project = projectRepository.save(project);
         organization.getProjects().add(project);
         organizationRepository.save(organization);

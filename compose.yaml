@@ -18,6 +18,16 @@ services:
       - 'MINIO_ROOT_USER=loghub'
       - 'MINIO_ROOT_PASSWORD=xps*NI_mYJr6PT*'
       - 'MINIO_DEFAULT_BUCKETS=loghub-bucket'
+  elasticsearch:
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.18'
+    environment:
+      - 'ELASTIC_PASSWORD=xps*NI_mYJr6PT*'
+      - 'ELASTIC_USERNAME=loghub'
+      - 'discovery.type=single-node'
+      - 'xpack.security.enabled=false'
+    ports:
+      - '9200:9200'
+      - '9300:9300'
 
 volumes:
   minio_data:

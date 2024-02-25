@@ -27,7 +27,9 @@ public class LogSession {
     private String sessionId;
 
     @NotNull
+    @Indexed
     private LocalDateTime startTime = LocalDateTime.now();
+    @Indexed
     private LocalDateTime endTime;
 
     @NotNull

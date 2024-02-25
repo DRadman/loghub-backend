@@ -57,6 +57,9 @@ public class Organization {
     @EqualsAndHashCode.Exclude
     private List<Invitation> invitations = new ArrayList<>();
 
+    @NotNull
+    private OrganizationCleanupPolicy cleanupPolicy = new OrganizationCleanupPolicy();
+
     @CreatedDate
     private LocalDateTime createdAt;
 

@@ -50,7 +50,7 @@ public class JwtService {
                 .and()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + refreshTokenDuration * 1000))
+                .expiration(new Date(System.currentTimeMillis() + tokenDuration * 1000))
                 .issuer(appUrl)
                 .signWith(getSignInKey())
                 .compact();

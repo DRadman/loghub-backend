@@ -11,6 +11,6 @@ import java.util.List;
 public interface ProjectStatRepository extends ElasticsearchRepository<ProjectStat, String> {
     @Nullable
     ProjectStat findFirstByProjectIdOrderByEndIntervalDesc(@NonNull String projectId);
-    List<ProjectStat> findByProjectIdAndStartIntervalBetween(@NonNull String projectId, LocalDateTime startIntervalStart, LocalDateTime startIntervalEnd);
+    List<ProjectStat> findByProjectIdAndStartIntervalBetweenOrderByStartInterval(@NonNull String projectId, LocalDateTime startIntervalStart, LocalDateTime startIntervalEnd);
 
 }

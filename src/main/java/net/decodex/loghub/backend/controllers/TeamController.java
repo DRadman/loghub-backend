@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.annotations.IsMongoId;
+import net.decodex.loghub.backend.domain.dto.ProjectDto;
 import net.decodex.loghub.backend.domain.dto.requests.TeamRequestDto;
 import net.decodex.loghub.backend.domain.dto.TeamDto;
 import net.decodex.loghub.backend.domain.dto.UserDto;
@@ -50,6 +51,20 @@ public class TeamController {
         return teamService.getTeamMembers(teamId, principal);
     }
 
+    @Operation(summary = "Get Team Projects")
+    @GetMapping(path = "/{teamId}/projects")
+    @PreAuthorize("hasAuthority('TEAM:READ')")
+    public List<ProjectDto> getTeamProjects(Principal principal, @PathVariable("teamId") @IsMongoId String teamId) {
+        return teamService.getTeamProjects(teamId, principal);
+    }
+
+    @Operation(summary = "Get Team By Id")
+    @GetMapping(path = "/{teamId}")
+    @PreAuthorize("hasAuthority('TEAM:READ')")
+    public TeamDto getTeamById(Principal principal, @PathVariable("teamId") @IsMongoId String teamId) {
+        return teamService.getTeamById(teamId, principal);
+    }
+
     @Operation(summary = "Add Team Member")
     @PutMapping(path = "/{teamId}/members")
     @PreAuthorize("hasAuthority('TEAM:UPDATE')")
@@ -64,6 +79,20 @@ public class TeamController {
         return teamService.removeTeamMembers(teamId, ids, principal);
     }
 
+    @Operation(summary = "Add Team Projects")
+    @PutMapping(path = "/{teamId}/projects")
+    @PreAuthorize("hasAuthority('TEAM:UPDATE')")
+    public List<ProjectDto> addTeamProjects(@PathVariable("teamId") @IsMongoId String teamId, @RequestParam("ids") List<String> ids, Principal principal) {
+        return teamService.addTeamProjects(teamId, ids, principal);
+    }
+
+    @Operation(summary = "Remove Team Projects")
+    @DeleteMapping(path = "/{teamId}/projects")
+    @PreAuthorize("hasAuthority('TEAM:UPDATE')")
+    public List<ProjectDto> removeTeamProjects(@PathVariable("teamId") @IsMongoId String teamId, @RequestParam("ids") List<String> ids, Principal principal) {
+        return teamService.removeTeamProjects(teamId, ids, principal);
+    }
+
     @Operation(summary = "Create Team")
     @PostMapping(path = "")
     @PreAuthorize("hasAuthority('TEAM:CREATE')")
@@ -72,7 +101,7 @@ public class TeamController {
     }
 
     @Operation(summary = "Update Team")
-    @PostMapping(path = "/{teamId}")
+    @PatchMapping(path = "/{teamId}")
     @PreAuthorize("hasAuthority('TEAM:UPDATE')")
     public TeamDto UpdateTeam(@RequestBody @Valid TeamRequestDto dto, @PathVariable("teamId") @IsMongoId String teamId, Principal principal) {
         return teamService.updateTeam(dto, teamId, principal);

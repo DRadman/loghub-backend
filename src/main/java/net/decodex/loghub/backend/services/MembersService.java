@@ -140,4 +140,13 @@ public class MembersService {
             throw new ResourceNotFoundException("User", "userId", id);
         }
     }
+
+    public List<UserDto> findAllActiveMembers(Principal principal) {
+        var user = authenticationService.getLoggedUser(principal.getName());
+        if (user.getOrganization() == null) {
+            throw new OrganizationNotPresentException();
+        }
+
+        return user.getOrganization().getMembers().stream().map(userMapper::toDto).collect(Collectors.toList());
+    }
 }

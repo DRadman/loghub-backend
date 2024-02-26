@@ -48,8 +48,8 @@ public class ProjectStatsService {
             dto.setPlatform(platformMapper.toDto(project.getPlatform()));
             dto.setReleases(project.getReleases().stream().map(projectReleaseMapper::toDto).collect(Collectors.toList()));
             dto.setProjectId(projectId);
-            var stats = projectStatRepository.findByProjectIdAndStartIntervalBetween(projectId, lastDay, currentTime);
-            var previousStats = projectStatRepository.findByProjectIdAndStartIntervalBetween(projectId, lastDay.minusHours(24), lastDay);
+            var stats = projectStatRepository.findByProjectIdAndStartIntervalBetweenOrderByStartInterval(projectId, lastDay, currentTime);
+            var previousStats = projectStatRepository.findByProjectIdAndStartIntervalBetweenOrderByStartInterval(projectId, lastDay.minusHours(24), lastDay);
             dto.setHourByHour(stats);
             var totalCrashFreeSessions = 0;
             var totalSessions = 0;

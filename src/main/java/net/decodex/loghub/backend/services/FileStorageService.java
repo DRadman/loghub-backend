@@ -11,6 +11,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -29,13 +31,21 @@ public class FileStorageService {
 
     public FileDto addFile(String fileName, MultipartFile file) throws IOException, MinioException {
         var extension = getFileExtension(file);
-        if(extension == null) {
+        if (extension == null) {
             extension = "";
         } else {
-            extension = "."+extension;
+            extension = "." + extension;
         }
-        Path path = Path.of(fileName+extension);
+        Path path = Path.of(fileName + extension);
         minioService.upload(path, file.getInputStream(), file.getContentType());
+        var metadata = minioService.getMetadata(path);
+        return metaDataToDto(metadata);
+    }
+
+    public FileDto addFile(String fileName, String extension, String contentType, FileInputStream fileInputStream) throws IOException, MinioException {
+
+        Path path = Path.of(fileName + extension);
+        minioService.upload(path, fileInputStream, contentType);
         var metadata = minioService.getMetadata(path);
         return metaDataToDto(metadata);
     }
@@ -79,6 +89,19 @@ public class FileStorageService {
         // Get the original filename
         String originalFilename = file.getOriginalFilename();
         if (originalFilename != null && !originalFilename.isEmpty()) {
+            // Extract file extension
+            int lastIndex = originalFilename.lastIndexOf('.');
+            if (lastIndex != -1 && lastIndex < originalFilename.length() - 1) {
+                return originalFilename.substring(lastIndex + 1);
+            }
+        }
+        return null; // No extension found
+    }
+
+    private String getFileExtension(File file) {
+        // Get the original filename
+        String originalFilename = file.getName();
+        if (!originalFilename.isEmpty()) {
             // Extract file extension
             int lastIndex = originalFilename.lastIndexOf('.');
             if (lastIndex != -1 && lastIndex < originalFilename.length() - 1) {

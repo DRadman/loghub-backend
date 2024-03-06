@@ -3,10 +3,7 @@ package net.decodex.loghub.backend.services;
 import com.jlefebure.spring.boot.minio.MinioException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import net.decodex.loghub.backend.domain.dto.DebugFileDto;
-import net.decodex.loghub.backend.domain.dto.ProjectDto;
-import net.decodex.loghub.backend.domain.dto.ProjectReleaseDto;
-import net.decodex.loghub.backend.domain.dto.TeamDto;
+import net.decodex.loghub.backend.domain.dto.*;
 import net.decodex.loghub.backend.domain.dto.requests.CreateProjectReleaseDto;
 import net.decodex.loghub.backend.domain.dto.requests.ProjectRequestDto;
 import net.decodex.loghub.backend.domain.mappers.*;
@@ -533,7 +530,7 @@ public class ProjectService {
         }
     }
 
-    public String getProjectKey(String projectId, Principal principal) {
+    public ProjectClientSecurityDto getProjectSecurityClient(String projectId, Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
         if (user.getOrganization() == null) {
             throw new OrganizationNotPresentException();
@@ -545,7 +542,7 @@ public class ProjectService {
 
         var project = projectOp.get();
         if (project.getOrganization().getOrganizationId().equals(user.getOrganization().getOrganizationId())) {
-            return cryptoService.toBase64(projectId);
+            return new ProjectClientSecurityDto(cryptoService.toBase64(projectId), "X-API-KEY", "*");
         } else {
             throw new ForbiddenActionException("Not member of organization");
         }

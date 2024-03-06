@@ -60,7 +60,7 @@ public class ProjectController {
     }
 
     @Operation(summary = "Get Project Key")
-    @GetMapping(path = "/{projectId}/security-client")
+    @GetMapping(path = "/{projectId}/client-security")
     @PreAuthorize("hasAuthority('PROJECT:READ')")
     public ProjectClientSecurityDto getProjectKey(Principal principal, @PathVariable("projectId") @IsMongoId String projectId) {
         return projectService.getProjectSecurityClient(projectId, principal);

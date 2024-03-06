@@ -208,7 +208,7 @@ public class ProjectController {
     }
 
     @Operation(summary = "Update Project")
-    @PostMapping(path = "/{projectId}")
+    @PatchMapping(path = "/{projectId}")
     @PreAuthorize("hasAuthority('PROJECT:UPDATE')")
     public ProjectDto updateProject(@RequestBody @Valid ProjectRequestDto dto,
                                     @PathVariable("projectId") @IsMongoId String projectId, Principal principal) {

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.domain.dto.GeneralProjectStatDto;
 import net.decodex.loghub.backend.domain.mappers.PlatformMapper;
 import net.decodex.loghub.backend.domain.mappers.ProjectReleaseMapper;
+import net.decodex.loghub.backend.domain.models.ProjectRelease;
 import net.decodex.loghub.backend.domain.models.elastic.ProjectStat;
 import net.decodex.loghub.backend.exceptions.specifications.ForbiddenActionException;
 import net.decodex.loghub.backend.exceptions.specifications.OrganizationNotPresentException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,7 +48,7 @@ public class ProjectStatsService {
             var dto = new GeneralProjectStatDto();
             dto.setName(project.getName());
             dto.setPlatform(platformMapper.toDto(project.getPlatform()));
-            dto.setReleases(project.getReleases().stream().map(projectReleaseMapper::toDto).collect(Collectors.toList()));
+            dto.setReleases(project.getReleases().stream().sorted(Comparator.comparing(ProjectRelease::getCreatedAt).reversed()).map(projectReleaseMapper::toDto).collect(Collectors.toList()));
             dto.setProjectId(projectId);
             var stats = projectStatRepository.findByProjectIdAndStartIntervalBetweenOrderByStartInterval(projectId, lastDay, currentTime);
             var previousStats = projectStatRepository.findByProjectIdAndStartIntervalBetweenOrderByStartInterval(projectId, lastDay.minusHours(24), lastDay);
@@ -68,20 +70,7 @@ public class ProjectStatsService {
                 previousTotalCrashFreeSessions += stat.getNumberOfCrashFreeSessions();
             }
             double crashFreePercentage = totalSessions == 0 ? 0 : (double) totalCrashFreeSessions / totalSessions * 100;
-            double thresholdPercentage = 0.5; // Define your threshold percentage here
-            double crashFreePercentageGain = 0.0;
-
-            if (previousTotalSessions > 0) {
-                double previousCrashFreePercentage = previousTotalCrashFreeSessions / (double) previousTotalSessions * 100;
-                double percentageDiff = (totalSessions / (double) previousTotalSessions * 100) - previousCrashFreePercentage;
-
-                // Adjust the percentage difference based on the threshold
-                if (Math.abs(percentageDiff) <= thresholdPercentage) {
-                    crashFreePercentageGain = percentageDiff;
-                } else {
-                    crashFreePercentageGain = (percentageDiff < 0) ? -thresholdPercentage : thresholdPercentage;
-                }
-            }
+            double crashFreePercentageGain = getCrashFreePercentageGain(previousTotalSessions, previousTotalCrashFreeSessions, totalSessions);
             dto.setTotalCrashFreeSessions(totalCrashFreeSessions);
             dto.setTotalSessions(totalSessions);
             dto.setCrashFreePercentage(crashFreePercentage);
@@ -92,5 +81,23 @@ public class ProjectStatsService {
         } else {
             throw new ForbiddenActionException("Not member of organization");
         }
+    }
+
+    private static double getCrashFreePercentageGain(int previousTotalSessions, int previousTotalCrashFreeSessions, int totalSessions) {
+        double thresholdPercentage = 0.5; // Define your threshold percentage here
+        double crashFreePercentageGain = 0.0;
+
+        if (previousTotalSessions > 0) {
+            double previousCrashFreePercentage = previousTotalCrashFreeSessions / (double) previousTotalSessions * 100;
+            double percentageDiff = (totalSessions / (double) previousTotalSessions * 100) - previousCrashFreePercentage;
+
+            // Adjust the percentage difference based on the threshold
+            if (Math.abs(percentageDiff) <= thresholdPercentage) {
+                crashFreePercentageGain = percentageDiff;
+            } else {
+                crashFreePercentageGain = (percentageDiff < 0) ? -thresholdPercentage : thresholdPercentage;
+            }
+        }
+        return crashFreePercentageGain;
     }
 }

@@ -47,8 +47,6 @@ public class ProjectService {
     private final ProjectReleaseMapper projectReleaseMapper;
     private final DebugFileMapper debugFileMapper;
     private final PlatformRepository platformRepository;
-    private final PlatformMapper platformMapper;
-    private final ProjectStatRepository projectStatRepository;
 
     public List<ProjectDto> findAllProjects(String search, Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());

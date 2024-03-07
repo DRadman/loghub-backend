@@ -260,7 +260,7 @@ public class ProjectService {
             project.getEnvironments().removeAll(environments);
             projectRepository.save(project);
 
-            return project.getTags();
+            return project.getEnvironments();
         } else {
             throw new ForbiddenActionException("Not member of organization");
         }

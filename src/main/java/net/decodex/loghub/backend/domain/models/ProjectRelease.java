@@ -29,6 +29,8 @@ public class ProjectRelease {
     private String version = "undefined";
 
     @CreatedDate
+    private LocalDateTime createdAt;
+
     private LocalDateTime releaseTimestamp;
 
     @DBRef(lazy = true)

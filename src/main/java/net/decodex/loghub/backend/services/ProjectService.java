@@ -408,7 +408,7 @@ public class ProjectService {
             debugFile = debugFileRepository.save(debugFile);
             var result = this.fileStorageService.addFile(ResourceType.DEBUG_FILE + "_" + debugFile.getDebugFileId(), file);
             debugFile.setFile(result.getFileName());
-            debugFile.setFileUrl(this.fileStorageService.getBasePrivateUrl() + "/" + result.getFileName());
+            debugFile.setFileUrl(this.fileStorageService.getBasePrivateDownloadUrl() + "/" + result.getFileName());
             debugFileRepository.save(debugFile);
             project.getDebugFiles().add(debugFile);
             projectRepository.save(project);

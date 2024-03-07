@@ -85,6 +85,10 @@ public class FileStorageService {
         return baseUrl + "/api/v1/files/view";
     }
 
+    public String getBasePrivateDownloadUrl() {
+        return baseUrl + "/api/v1/files/download";
+    }
+
     private String getFileExtension(MultipartFile file) {
         // Get the original filename
         String originalFilename = file.getOriginalFilename();

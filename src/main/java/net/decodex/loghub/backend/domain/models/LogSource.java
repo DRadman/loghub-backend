@@ -41,6 +41,9 @@ public class LogSource {
     @NotNull
     private String ipAddress = "unknown";
 
+    @DBRef(lazy = true)
+    private ProjectRelease release = null;
+
     @NotNull
     private String cpuInfo = "unknown";
 

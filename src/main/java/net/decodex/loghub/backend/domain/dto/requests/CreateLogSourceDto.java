@@ -26,4 +26,5 @@ public class CreateLogSourceDto implements Serializable {
     private String macAddress = "unknown";
     private int maxRam = 0;
     private String architecture = "unknown";
+    private String releaseId = "unknown";
 }

@@ -39,6 +39,13 @@ public class DeviceService {
         }
 
         logSource.setProject(project);
+        if (dto.getReleaseId() != null && !dto.getReleaseId().equalsIgnoreCase("unknown")) {
+            var result = project.getReleases().stream()
+                    .filter(release -> dto.getReleaseId().equalsIgnoreCase(release.getReleaseId()))
+                    .findFirst();
+            //noinspection OptionalGetWithoutIsPresent
+            logSource.setRelease(result.get());
+        }
         logSource = logSourceRepository.save(logSource);
         return logSourceMapper.toDto(logSource);
     }

@@ -55,8 +55,8 @@ public class ProjectController {
 
     @GetMapping("/details")
     @Operation(summary = "Retrieves information of project by api key")
-    public ProjectDto getProjectKeyDetails(@RequestHeader("X-API-KEY") String key) {
-        return projectMapper.toDto(projectService.getProjectByKey(key));
+    public ProjectDetailsDto getProjectKeyDetails(@RequestHeader("X-API-KEY") String key) {
+        return projectMapper.toDetailsDto(projectService.getProjectByKey(key));
     }
 
     @Operation(summary = "Get Project Key")

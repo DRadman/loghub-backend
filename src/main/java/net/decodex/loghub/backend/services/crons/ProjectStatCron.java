@@ -41,7 +41,8 @@ public class ProjectStatCron {
         // Process each project
         projects.forEach(project -> {
             // Find log sessions for the project within the previous hour
-            List<LogSession> projectSessions = logSessionRepository.findByProjectAndStartTimeBeforeAndEndTimeBeforeAndEndTimeNotNullOrProjectAndEndTimeNull(project, previousHourTimestamp, currentHourTimestamp, project);
+            List<LogSession> projectSessions = logSessionRepository.findByProjectAndStartTimeBeforeAndEndTimeBetweenOrProjectAndEndTimeNull(project, previousHourTimestamp, previousHourTimestamp, currentHourTimestamp, project);
+
 
             // Calculate statistics
             int numberOfActiveSessions = projectSessions.size();

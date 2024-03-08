@@ -1,6 +1,7 @@
 package net.decodex.loghub.backend.domain.dto;
 
 import lombok.*;
+import net.decodex.loghub.backend.domain.models.CpuInfo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class LogSourceDto implements Serializable {
     private String osVersion = "unknown";
     private String environment = "unknown";
     private String ipAddress = "unknown";
-    private String cpuInfo = "unknown";
+    private CpuInfo cpuInfo;
     private String macAddress = "unknown";
     private ProjectReleaseDto release;
     private int maxRam = 0;

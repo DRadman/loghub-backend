@@ -45,7 +45,7 @@ public class LogSource {
     private ProjectRelease release = null;
 
     @NotNull
-    private String cpuInfo = "unknown";
+    private CpuInfo cpuInfo = new CpuInfo();
 
     @NotNull
     private String macAddress = "unknown";

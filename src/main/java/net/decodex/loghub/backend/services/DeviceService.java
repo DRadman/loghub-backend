@@ -49,7 +49,7 @@ public class DeviceService {
         }
         if (dto.getIpAddress() == null || dto.getIpAddress().isEmpty() || dto.getIpAddress().equalsIgnoreCase("unknown")) {
             String ipAddress = request.getHeader("X-FORWARDED-FOR");
-            if (ipAddress == null || ipAddress.isEmpty() || ipAddress.equals("0.0.0.0") || ipAddress.startsWith("127.") || ipAddress.startsWith("192.")) {
+            if (ipAddress == null || ipAddress.isEmpty() || ipAddress.startsWith("0:") || ipAddress.startsWith("127.") || ipAddress.startsWith("192.")) {
                 ipAddress = request.getRemoteAddr();
             }
             logSource.setIpAddress(ipAddress);

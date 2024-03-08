@@ -24,7 +24,7 @@ public class LogSourceDto implements Serializable {
     private CpuInfo cpuInfo;
     private String macAddress = "unknown";
     private ProjectReleaseDto release;
-    private int maxRam = 0;
+    private long maxRam = 0;
     private String architecture = "unknown";
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

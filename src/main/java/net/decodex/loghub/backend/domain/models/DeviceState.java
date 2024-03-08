@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 public class DeviceState {
     private double cpuUtilization = 0;
     private double ramUsage = 0;
-    private int freeRam = 0;
+    private long freeRam = 0;
 
     @NotNull
     private String locale = "unknown";

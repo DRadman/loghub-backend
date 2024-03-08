@@ -50,7 +50,7 @@ public class LogSource {
     @NotNull
     private String macAddress = "unknown";
 
-    private int maxRam = 0;
+    private long maxRam = 0;
 
     @NotNull
     private String architecture = "unknown";

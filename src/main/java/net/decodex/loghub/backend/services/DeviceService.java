@@ -1,5 +1,6 @@
 package net.decodex.loghub.backend.services;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.domain.dto.LogSessionDto;
 import net.decodex.loghub.backend.domain.dto.LogSourceDto;
@@ -25,7 +26,7 @@ public class DeviceService {
     private final LogSessionMapper logSessionMapper;
     private final LogSessionRepository logSessionRepository;
 
-    public LogSourceDto register(CreateLogSourceDto dto, String key) {
+    public LogSourceDto register(CreateLogSourceDto dto, String key, HttpServletRequest request) {
         var project = projectService.getProjectByKey(key);
         var existingSource = logSourceRepository.findByUniqueIdentifier(project.getProjectId() + "_" + dto.getUniqueIdentifier());
         LogSource logSource;
@@ -46,6 +47,14 @@ public class DeviceService {
             //noinspection OptionalGetWithoutIsPresent
             logSource.setRelease(result.get());
         }
+        if (dto.getIpAddress() == null || dto.getIpAddress().isEmpty() || dto.getIpAddress().equalsIgnoreCase("unknown")) {
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");
+            if (ipAddress == null || ipAddress.isEmpty() || ipAddress.equals("0.0.0.0") || ipAddress.startsWith("127.") || ipAddress.startsWith("192.")) {
+                ipAddress = request.getRemoteAddr();
+            }
+            logSource.setIpAddress(ipAddress);
+        }
+
         logSource = logSourceRepository.save(logSource);
         return logSourceMapper.toDto(logSource);
     }

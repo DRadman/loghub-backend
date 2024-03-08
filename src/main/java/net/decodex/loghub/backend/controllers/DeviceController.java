@@ -1,6 +1,7 @@
 package net.decodex.loghub.backend.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.annotations.IsMongoId;
@@ -20,8 +21,10 @@ public class DeviceController {
 
     @PostMapping("/register")
     @Operation(summary = "Register device or update existing device")
-    public LogSourceDto register(@RequestBody @Valid CreateLogSourceDto dto, @RequestHeader("X-API-KEY") String key) {
-        return deviceService.register(dto, key);
+    public LogSourceDto register(@RequestBody @Valid CreateLogSourceDto dto,
+                                 @RequestHeader("X-API-KEY") String key,
+                                 HttpServletRequest request) {
+        return deviceService.register(dto, key, request);
     }
 
     @PostMapping("/start-session/{deviceId}")

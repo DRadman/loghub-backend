@@ -16,5 +16,5 @@ public interface LogSessionRepository extends MongoRepository<LogSession, String
     Optional<LogSession> findFirstBySourceOrderByStartTimeDesc(@NonNull LogSource source);
     void deleteByProjectIn(@NonNull Collection<Project> projects);
 
-    List<LogSession> findByProjectAndStartTimeBeforeAndEndTimeAfterOrEndTimeIsNull(@NotNull Project project, LocalDateTime startTime, LocalDateTime endTime);
+    List<LogSession> findByProjectAndStartTimeBeforeAndEndTimeBeforeAndEndTimeNotNullOrProjectAndEndTimeNull(@NonNull Project project, @NonNull LocalDateTime startTime, @NonNull LocalDateTime endTime, @NonNull Project project1);
 }

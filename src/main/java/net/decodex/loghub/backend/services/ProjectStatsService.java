@@ -9,6 +9,7 @@ import net.decodex.loghub.backend.domain.models.elastic.ProjectStat;
 import net.decodex.loghub.backend.exceptions.specifications.ForbiddenActionException;
 import net.decodex.loghub.backend.exceptions.specifications.OrganizationNotPresentException;
 import net.decodex.loghub.backend.exceptions.specifications.ResourceNotFoundException;
+import net.decodex.loghub.backend.repositories.LogSessionRepository;
 import net.decodex.loghub.backend.repositories.ProjectRepository;
 import net.decodex.loghub.backend.repositories.elastic.ProjectStatRepository;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class ProjectStatsService {
 
     private final PlatformMapper platformMapper;
     private final ProjectReleaseMapper projectReleaseMapper;
+    private final LogSessionRepository logSessionRepository;
 
     public GeneralProjectStatDto getProjectStats(String projectId, Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
@@ -51,26 +53,18 @@ public class ProjectStatsService {
             dto.setReleases(project.getReleases().stream().sorted(Comparator.comparing(ProjectRelease::getCreatedAt).reversed()).map(projectReleaseMapper::toDto).collect(Collectors.toList()));
             dto.setProjectId(projectId);
             var stats = projectStatRepository.findByProjectIdAndStartIntervalBetweenOrderByStartInterval(projectId, lastDay, currentTime);
-            var previousStats = projectStatRepository.findByProjectIdAndStartIntervalBetweenOrderByStartInterval(projectId, lastDay.minusHours(24), lastDay);
             dto.setHourByHour(stats);
-            var totalCrashFreeSessions = 0;
-            var totalSessions = 0;
-            var previousTotalCrashFreeSessions = 0;
-            var previousTotalSessions = 0;
+            var totalCrashFreeSessions = logSessionRepository.countByProjectAndCrashFreeTrue(project);
+            var totalSessions = logSessionRepository.countByProject(project);
             var totalErrors = 0;
             var totalTransactions = 0;
             for(ProjectStat stat : stats) {
-                totalSessions += stat.getNumberOfSessions();
-                totalCrashFreeSessions += stat.getNumberOfCrashFreeSessions();
                 totalErrors += stat.getErrors();
                 totalTransactions += stat.getTransactions();
             }
-            for (ProjectStat stat: previousStats) {
-                previousTotalSessions += stat.getNumberOfSessions();
-                previousTotalCrashFreeSessions += stat.getNumberOfCrashFreeSessions();
-            }
-            double crashFreePercentage = totalSessions == 0 ? 0 : (double) totalCrashFreeSessions / totalSessions * 100;
-            double crashFreePercentageGain = getCrashFreePercentageGain(previousTotalSessions, previousTotalCrashFreeSessions, totalSessions);
+            var lastSession = stats.getLast();
+            double crashFreePercentage = lastSession != null ? lastSession.getCrashFreePercentage() : 0.0;
+            double crashFreePercentageGain = lastSession != null ? lastSession.getCrashFreeGain() : 0.0;
             dto.setTotalCrashFreeSessions(totalCrashFreeSessions);
             dto.setTotalSessions(totalSessions);
             dto.setCrashFreePercentage(crashFreePercentage);

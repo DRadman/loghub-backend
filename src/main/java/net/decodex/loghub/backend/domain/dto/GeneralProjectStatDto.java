@@ -16,8 +16,8 @@ public class GeneralProjectStatDto {
     private PlatformDto platform;
     private List<ProjectReleaseDto> releases;
     private List<ProjectStat> hourByHour;
-    private int totalSessions;
-    private int totalCrashFreeSessions;
+    private long totalSessions;
+    private long totalCrashFreeSessions;
     private double crashFreePercentage;
     private double crashFreePercentageGain;
     private int totalErrors;

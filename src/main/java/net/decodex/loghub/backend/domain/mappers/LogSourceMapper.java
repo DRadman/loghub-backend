@@ -1,6 +1,7 @@
 package net.decodex.loghub.backend.domain.mappers;
 
 import net.decodex.loghub.backend.domain.dto.LogSourceDto;
+import net.decodex.loghub.backend.domain.dto.LogSourceWithOnlineStatusDto;
 import net.decodex.loghub.backend.domain.dto.requests.CreateLogSourceDto;
 import net.decodex.loghub.backend.domain.models.LogSource;
 import org.mapstruct.*;
@@ -20,4 +21,6 @@ public interface LogSourceMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     LogSource partialUpdate(CreateLogSourceDto createLogSourceDto, @MappingTarget LogSource logSource);
+
+    LogSourceWithOnlineStatusDto toDtoWithOnlineStatus(LogSource logSource);
 }

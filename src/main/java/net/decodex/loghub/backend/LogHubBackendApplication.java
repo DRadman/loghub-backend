@@ -7,7 +7,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.List;
 import java.util.TimeZone;
+
+import static net.decodex.loghub.backend.utils.QueryEngine.parseQuery;
 
 @EnableTransactionManagement
 @EnableScheduling

@@ -3,15 +3,14 @@ package net.decodex.loghub.backend.services;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
-import net.decodex.loghub.backend.domain.dto.LogSourceWithOnlineStatusDto;
-import net.decodex.loghub.backend.domain.dto.queries.LogSourceQueryDto;
-import net.decodex.loghub.backend.domain.mappers.LogSourceMapper;
+import net.decodex.loghub.backend.domain.dto.LogSessionWithSourceIdDto;
+import net.decodex.loghub.backend.domain.dto.queries.LogSessionQueryDto;
+import net.decodex.loghub.backend.domain.mappers.LogSessionMapper;
 import net.decodex.loghub.backend.domain.models.Organization;
 import net.decodex.loghub.backend.domain.models.Project;
-import net.decodex.loghub.backend.domain.models.QLogSource;
+import net.decodex.loghub.backend.domain.models.QLogSession;
 import net.decodex.loghub.backend.exceptions.specifications.OrganizationNotPresentException;
 import net.decodex.loghub.backend.repositories.LogSessionRepository;
-import net.decodex.loghub.backend.repositories.LogSourceRepository;
 import net.decodex.loghub.backend.utils.QueryEngine;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,30 +18,27 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 
-@Service
 @RequiredArgsConstructor
-public class LogSourceService {
+@Service
+public class LogSessionService {
 
-    private final LogSourceRepository logSourceRepository;
-    private final LogSourceMapper logSourceMapper;
     private final LogSessionRepository logSessionRepository;
+    private final LogSessionMapper logSessionMapper;
     private final AuthenticationService authenticationService;
 
-    public Page<LogSourceWithOnlineStatusDto> findAll(Pageable pageable, LogSourceQueryDto logSourceQueryDto, Principal principal) {
+    public Page<LogSessionWithSourceIdDto> findAll(Pageable pageable, LogSessionQueryDto logSessionQueryDto, Principal principal) {
         var user = authenticationService.getLoggedUser(principal.getName());
         if (user.getOrganization() == null) {
             throw new OrganizationNotPresentException();
         }
 
-        var predicate = buildPredicate(user.getOrganization(), logSourceQueryDto);
+        var predicate = buildPredicate(user.getOrganization(), logSessionQueryDto);
 
-        var result = logSourceRepository.findAll(predicate, pageable).map(logSourceMapper::toDtoWithOnlineStatus);
-        result.forEach(logSourceWithOnlineStatusDto -> logSourceWithOnlineStatusDto.setOnline(logSessionRepository.existsBySource_LogSourceIdAndEndTimeNull(logSourceWithOnlineStatusDto.getLogSourceId())));
-        return result;
+        return logSessionRepository.findAll(predicate, pageable).map(logSessionMapper::toDtoWithProjectId);
     }
 
-    private Predicate buildPredicate(Organization organization, LogSourceQueryDto queryDto) {
-        var qEntity = QLogSource.logSource;
+    private Predicate buildPredicate(Organization organization, LogSessionQueryDto queryDto) {
+        var qEntity = QLogSession.logSession;
         var projectIds = organization.getProjects().stream().map(Project::getProjectId).toList();
         if(projectIds.size() == 1) {
             projectIds.add("");
@@ -65,18 +61,13 @@ public class LogSourceService {
             predicateBuilder.and(qEntity.project.projectId.in(projectIds));
         }
 
-        // Add releaseIds predicate
-        if (queryDto.getReleaseIds() != null && !queryDto.getReleaseIds().isEmpty()) {
-            var list = queryDto.getReleaseIds();
+        // Add logSourceIds to predicate
+        if (queryDto.getLogSourceIds() != null && !queryDto.getLogSourceIds().isEmpty()) {
+            var list = queryDto.getLogSourceIds();
             if (list.size() == 1) {
                 list.add("");
             }
-            predicateBuilder.and(qEntity.release.releaseId.in(list));
-        }
-
-        // Add environments predicate
-        if (queryDto.getEnvironments() != null && !queryDto.getEnvironments().isEmpty()) {
-            predicateBuilder.and(qEntity.environment.in(queryDto.getEnvironments()));
+            predicateBuilder.and(qEntity.source.logSourceId.in(list));
         }
 
         if (queryDto.getSearch() != null && !queryDto.getSearch().isEmpty()) {
@@ -84,6 +75,4 @@ public class LogSourceService {
         }
         return predicateBuilder;
     }
-
-
 }

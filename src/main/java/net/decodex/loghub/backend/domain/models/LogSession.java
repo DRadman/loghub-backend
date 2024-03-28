@@ -37,7 +37,7 @@ public class LogSession {
 
     @NotNull
     private String networkSpeed = "unknown";
-
+ 
     private boolean crashFree = true;
 
     @DBRef(lazy = true)

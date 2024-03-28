@@ -5,13 +5,13 @@ import net.decodex.loghub.backend.domain.dto.GeneralProjectStatDto;
 import net.decodex.loghub.backend.domain.mappers.PlatformMapper;
 import net.decodex.loghub.backend.domain.mappers.ProjectReleaseMapper;
 import net.decodex.loghub.backend.domain.models.ProjectRelease;
-import net.decodex.loghub.backend.domain.models.elastic.ProjectStat;
+import net.decodex.loghub.backend.domain.models.ProjectStat;
 import net.decodex.loghub.backend.exceptions.specifications.ForbiddenActionException;
 import net.decodex.loghub.backend.exceptions.specifications.OrganizationNotPresentException;
 import net.decodex.loghub.backend.exceptions.specifications.ResourceNotFoundException;
 import net.decodex.loghub.backend.repositories.LogSessionRepository;
 import net.decodex.loghub.backend.repositories.ProjectRepository;
-import net.decodex.loghub.backend.repositories.elastic.ProjectStatRepository;
+import net.decodex.loghub.backend.repositories.ProjectStatRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;

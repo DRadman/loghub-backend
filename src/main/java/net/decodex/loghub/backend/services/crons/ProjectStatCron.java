@@ -3,17 +3,16 @@ package net.decodex.loghub.backend.services.crons;
 import lombok.RequiredArgsConstructor;
 import net.decodex.loghub.backend.domain.models.LogSession;
 import net.decodex.loghub.backend.domain.models.Project;
-import net.decodex.loghub.backend.domain.models.elastic.ProjectStat;
+import net.decodex.loghub.backend.domain.models.ProjectStat;
 import net.decodex.loghub.backend.enums.LogEntryLevel;
 import net.decodex.loghub.backend.repositories.LogSessionRepository;
 import net.decodex.loghub.backend.repositories.ProjectRepository;
-import net.decodex.loghub.backend.repositories.elastic.ProjectStatRepository;
+import net.decodex.loghub.backend.repositories.ProjectStatRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

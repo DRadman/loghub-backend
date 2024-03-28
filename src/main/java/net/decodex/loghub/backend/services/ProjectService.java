@@ -13,7 +13,6 @@ import net.decodex.loghub.backend.enums.DebugFileType;
 import net.decodex.loghub.backend.enums.ResourceType;
 import net.decodex.loghub.backend.exceptions.specifications.*;
 import net.decodex.loghub.backend.repositories.*;
-import net.decodex.loghub.backend.repositories.elastic.ProjectStatRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

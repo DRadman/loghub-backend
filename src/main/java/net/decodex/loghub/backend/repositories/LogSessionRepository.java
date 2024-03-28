@@ -5,6 +5,7 @@ import net.decodex.loghub.backend.domain.models.LogSource;
 import net.decodex.loghub.backend.domain.models.Project;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface LogSessionRepository extends MongoRepository<LogSession, String> {
+public interface LogSessionRepository extends MongoRepository<LogSession, String>, QuerydslPredicateExecutor<LogSession> {
     Optional<LogSession> findFirstBySourceOrderByStartTimeDesc(@NonNull LogSource source);
     void deleteByProjectIn(@NonNull Collection<Project> projects);
 

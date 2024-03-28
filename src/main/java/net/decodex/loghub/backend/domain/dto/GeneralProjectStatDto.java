@@ -1,7 +1,7 @@
 package net.decodex.loghub.backend.domain.dto;
 
 import lombok.*;
-import net.decodex.loghub.backend.domain.models.elastic.ProjectStat;
+import net.decodex.loghub.backend.domain.models.ProjectStat;
 
 import java.util.List;
 

@@ -44,7 +44,7 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.4.0'
     implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
-    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.6'
     implementation 'com.mailjet:mailjet-client:5.2.5'
     implementation 'com.jlefebure:spring-boot-starter-minio:1.4'
     compileOnly 'org.projectlombok:lombok'

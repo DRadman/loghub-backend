@@ -34,7 +34,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.session:spring-session-core'
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    implementation 'org.mapstruct:mapstruct:1.6.0'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'com.querydsl:querydsl-apt:5.1.0:morphia'
     implementation('com.querydsl:querydsl-mongodb:5.1.0') {
@@ -58,7 +58,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:mongodb'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0'
     annotationProcessor 'com.querydsl:querydsl-apt:5.1.0:general'
 }
 
